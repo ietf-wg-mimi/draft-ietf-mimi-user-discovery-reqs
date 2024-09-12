@@ -41,6 +41,9 @@ About This Document
    https://mailarchive.ietf.org/arch/browse/mimi/.  Subscribe at
    https://www.ietf.org/mailman/listinfo/mimi/.
 
+   Source for this draft and an issue tracker can be found at
+   https://github.com/femigolu/user-discovery.
+
 Status of This Memo
 
    This Internet-Draft is submitted in full conformance with the
