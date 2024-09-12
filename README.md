@@ -1,18 +1,18 @@
-# Internet-Draft Template Repository
+# MIMI Discovery Requirements
 
-Use this repository as a template if you want to start working on
-[IETF](https://www.ietf.org/) documents. [Click here to create a new repository using the
-template](https://github.com/martinthomson/internet-draft-template/generate).
-Make sure to check "Include all branches", or you will need to enable GitHub Pages manually.
+This is the working area for the Internet-Draft, "MIMI Discovery Requirements".
 
-[Read the
-instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/TEMPLATE.md)
-for more information.
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-interop-mimi-discovery-requirements)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-interop-mimi-discovery-requirements)
 
-Once you have created your own repository, start work by:
 
-1. Set "Workflow permissions" to "Read and write permissions"
-   [in the repository settings](../../settings/actions#actions_default_workflow_permissions_write).
+## Command Line Usage
 
-2. Rename the `draft-todo-yourname-protocol.md` file
-   [here](../../edit/main/draft-todo-yourname-protocol.md).
+Formatted text and HTML versions of the draft can be built using `make`.
+
+```sh
+$ make
+```
+
+Command line usage requires that you have the necessary software installed.  See
+[the instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/SETUP.md).
