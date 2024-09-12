@@ -4,7 +4,7 @@
 
 More Instant Messaging Interoperability (mimi)                 G. Hogben
 Internet-Draft                                               F. Olumofin
-Intended status: Standards Track                                  Google
+Intended status: Informational                                    Google
 Expires: 16 March 2025                                       J. Peterson
                                                               TransUnion
                                                             J. Rosenberg
