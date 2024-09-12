@@ -1,13 +1,13 @@
 ---
 title: "MIMI Discovery Requirements"
 abbrev: "Discovery Requirements"
-category: std
+category: info
 
 docname: draft-interop-mimi-discovery-requirements-latest
 submissiontype: IETF
 number:
 date:
-consensus: true
+consensus: false
 v: 3
 area: ART
 workgroup: "More Instant Messaging Interoperability (mimi)"
