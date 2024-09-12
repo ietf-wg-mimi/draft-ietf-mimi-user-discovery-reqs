@@ -18,6 +18,7 @@ venue:
   type: Working Group
   mail: mimi@ietf.org
   arch: https://mailarchive.ietf.org/arch/browse/mimi/
+  github: femigolu/user-discovery
   latest: https://datatracker.ietf.org/doc/draft-interop-mimi-discovery-requirements/
 
 stand_alone: yes
