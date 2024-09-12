@@ -67,7 +67,7 @@ Glossary of terms:
 
 1. A **Service Specific Identifier (SSI)** is a unique identifier for a user within the context of a single messaging service provider. It is not globally unique across services. A fully-qualified SSI includes the messaging service provider's unique identifier, making it globally unique. Note that existence of an unqualified SSI on two or more services does not guarantee that the associated accounts belong to the same user. Thus, linking SSIs across services requires other verified data to establish a match. An example of a service specific identifier is a user's X/Twitter handle.
 
-1. A **Cross-Service Identifier (CSI)** is a globally unique identifier for a user that can be used to identify the user across multiple services. For example, a user's E.164 phone number, email address, or other service independent identifiers are CSIs, since they can be used to identify the user across multiple different services. 
+1. A **Cross-Service Identifier (CSI)** is a globally unique identifier for a user that can be used to identify the user across multiple services. For example, a user's E.164 phone number, email address, or other service independent identifiers are CSIs, since they can be used to identify the user across multiple different services.
 
 1. A **Messaging Service Provider (MSP)** provides messaging, voice, video and other forms of real-time communications services to end users. Examples of messaging service providers are WhatsApp, Messages, iMessage, Wire, Matrix, Signal etc. A user is reachable using one or more CSIs and may have at least one SSI internal to the MSP platform.
 
@@ -87,7 +87,7 @@ The discovery problem involves:
 
 1. Asserting verifiable mappings between CSIs and MSPs, and
 
-1. Looking up mappings to determine MSPs for which a CSI can be reached for messaging. 
+1. Looking up mappings to determine MSPs for which a CSI can be reached for messaging.
 
 Discovered mappings must be verifiable to ensure they are accurate. Crucially, discovery must prioritize user privacy, allowing users to control their discoverability, and it must integrate well with end-to-end encryption and other MIMI protocols.
 
@@ -130,7 +130,7 @@ A globally accessible, authoritative database (potentially sharded/replicated) s
 ## Hierarchical DPs (Discovery Resolvers)
 
 A global root Discovery Provider (DP) directs mapping requests to authoritative DPs based on CSI structure (e.g., country codes for E.164 phone numbers) or sharding mechanisms. The root DP, similar to hierarchical DNS, acts as a directory service, holding pointers to authoritative DPs rather than mappings themselves. Alternatives to hierarchical resolution, like the LoST protocol {{!RFC5222}}, or distributed hash tables (DHTs), can achieve similar outcomes.
- 
+
 ### Advantages
 - Scalability from distributed load and mapping management across multiple DPs.
 - Flexibility that allows different DPs to specialize in specific CSI ranges for regions.
@@ -157,7 +157,7 @@ In a federated model, multiple independent DPs collaborate to provide CSI mappin
 
 ## Additional Considerations on Architectural Models
 
-### Telephone Number CSIs 
+### Telephone Number CSIs
 Telephone number portability is complex due to its reliance on real-time queries to proprietary and legacy systems. Overall, the authenticated mappings proposed for MIMI may necessitate additional platform measures to assess mapping freshness and ensure up-to-date reachability responses.
 
 ### Bias Mitigation
@@ -222,7 +222,7 @@ The discovery process involves the preferences of multiple stakeholders:
 
 1. the querier seeking reachability information,
 2. the user with the mapped identity, and
-3. DPs (and by extension, the collaborating MSPs). 
+3. DPs (and by extension, the collaborating MSPs).
 
 The authors suggest the following:
 
@@ -245,7 +245,7 @@ The preference tag can be either a string (e.g., "Business", "Personal", "Basket
 
 ## Recipient's Critical User Journeys (implementations)
 
-Here are some Critical User Journeys (CUJs) that are the most important to discovery recipients. 
+Here are some Critical User Journeys (CUJs) that are the most important to discovery recipients.
 
 In the CUJs below, Bob is the recipient, and Alice is the sender or user performing discovery:
 
@@ -255,7 +255,7 @@ In the CUJs below, Bob is the recipient, and Alice is the sender or user perform
 4. No-duplication preferences: Bob does not want Alice's messages to be broadcasted to all or a subset of his apps based on the result of discovery.
 5. Per-sender preferences: Bob wants to control which app messages from Alice go to and do the same for other users (e.g., Carol's messages may go to a different app than Alice's).
 6. Closed group preferences: Bob only wants his soccer parents to discover and contact him on WhatsApp, not his Wire app. That is, a group of senders has the same mapping results based on Bob's preferences.
-7. Open-ended group preferences: Bob wants his business contacts to discover and reach him on Wire, not WhatsApp. That is, an open-ended list of senders (i.e., including leads) are provided with a designated mapping. 
+7. Open-ended group preferences: Bob wants his business contacts to discover and reach him on Wire, not WhatsApp. That is, an open-ended list of senders (i.e., including leads) are provided with a designated mapping.
 
 # Discovery Protocol Requirements
 
@@ -365,7 +365,7 @@ Whenever a new mapping is attempted for an existing CSI, the one established ear
 
 ## CSI Claim Timeliness
 
-Upon a user obtaining service for a new CSI (e.g., phone number or email address) from a CSIP, the discovery service must enable immediate discoverability when the user associates the CSI with a MSP. The MSP MUST implement a mechanism to validate the user's control over the claimed CSI (as usual). 
+Upon a user obtaining service for a new CSI (e.g., phone number or email address) from a CSIP, the discovery service must enable immediate discoverability when the user associates the CSI with a MSP. The MSP MUST implement a mechanism to validate the user's control over the claimed CSI (as usual).
 
 # Security Considerations
 
