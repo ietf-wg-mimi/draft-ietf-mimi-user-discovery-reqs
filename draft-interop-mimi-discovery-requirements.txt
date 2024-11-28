@@ -202,7 +202,7 @@ Table of Contents
    protocol [RFC3912], largely focused on mapping domain names to
    associated services, was one of the earliest discovery services
    deployed on the Internet.  DNS SRV records, specified in [RFC2782],
-   allow a similar process—given a domain name, a user can discover
+   allow a similar process - given a domain name, a user can discover
    available services, such as VoIP based on the Session Initiation
    Protocol (SIP) [RFC3261] [RFC3263].  SRV records were adapted
    specifically for messaging in [RFC3861].  However, both whois and DNS
