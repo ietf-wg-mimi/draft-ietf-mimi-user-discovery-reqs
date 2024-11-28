@@ -4,26 +4,28 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>MIMI Discovery Requirements</title>
+<title>User Discovery Requirements</title>
 <meta content="Giles Hogben" name="author">
 <meta content="Femi Olumofin" name="author">
 <meta content="Jon Peterson" name="author">
 <meta content="Jonathan Rosenberg" name="author">
 <meta content="
-       This document defines requirements for the discovery problem within the More Instant Messaging Interoperability (MIMI) working group. Discovery is essential for interoperability, allowing message senders to locate recipients across diverse platforms using globally unique, cross-service identifiers (e.g., email addresses, phone numbers). The core challenge involves reliably mapping these identifiers to messaging service providers and determining the reachability of a recipient's identifier across multiple providers. 
+       This document defines requirements for the user discovery problem within the More Instant Messaging Interoperability (MIMI) working group. User discovery is essential for interoperability, allowing message senders to locate recipients across diverse platforms using globally unique, cross-service identifiers (e.g., email addresses, phone numbers). The core challenge involves reliably mapping these identifiers to messaging service providers and determining the reachability of a recipient's identifier across multiple providers. 
     " name="description">
-<meta content="xml2rfc 3.23.0" name="generator">
+<meta content="xml2rfc 3.24.0" name="generator">
 <meta content="user discovery" name="keyword">
+<meta content="interoperability" name="keyword">
+<meta content="messaging" name="keyword">
 <meta content="draft-interop-mimi-discovery-requirements-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.23.0
-    Python 3.12.3
+  xml2rfc 3.24.0
+    Python 3.12.7
     ConfigArgParse 1.7
-    google-i18n-address 3.1.0
+    google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.4
-    lxml 4.9.4
-    platformdirs 4.2.2
+    lxml 5.3.0
+    platformdirs 4.3.6
     pycountry 22.3.5
     PyYAML 6.0.1
     requests 2.32.3
@@ -164,31 +166,6 @@
 }
 
 @font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: 'Oxygen Mono';
   font-style: normal;
   font-weight: 400;
@@ -205,6 +182,77 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: light dark;
   --background-color: #fff;
@@ -217,6 +265,7 @@
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
   --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
   scrollbar-color: #bbb #eee;
 }
 body {
@@ -234,9 +283,15 @@ body {
 }
 
 /* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Cabin Condensed", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 680;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
@@ -265,6 +320,7 @@ h4, h5, h6 {
 /* general structure */
 .author {
   padding-bottom: 0.3em;
+  vertical-align: top;
 }
 #abstract+p {
   font-size: 18px;
@@ -342,25 +398,26 @@ svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
 ol, ul {
   padding: 0;
   margin: 0 0 0.5em 2em;
-}
-:is(ol, ul) :is(ol, ul) {
-  margin-left: 1em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
 }
 li {
   margin: 0 0 0.25em 0;
 }
-.ulCompact li {
-  margin: 0;
-}
 ul.empty, .ulEmpty {
   list-style-type: none;
-}
-ul.empty li, .ulEmpty li {
-  margin-top: 0.5em;
+  & li {
+    margin-top: 0.5em;
+  }
 }
 :is(ul, ol).compact, .ulCompact, .olCompact {
-  line-height: 1;
   margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
 }
 
 /* definition lists */
@@ -368,38 +425,39 @@ dl {
   clear: left;
   --indent: 3ch;
   /* --indent: attr(indent ch); not supported in any browser, but we can dream */
-}
-dl.olPercent {
-  --indent: 5ch;
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
 }
 dl > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
 }
-dl.dlNewline > dt {
-  float: none;
-}
 dl > dd {
   margin-bottom: .8em;
   margin-left: var(--indent) !important; /* stupid element overrides */
   min-height: 2ex;
 }
-dl.olPercent > dt {
-  min-width: calc(var(--indent) - 2ch);
-}
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
-  margin-top: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
-  margin-bottom: 0;
-}
-dl > dd > dl {
-  margin-top: 0.5em;
-  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
 }
 :is(dd, span).break {
   display: none;
@@ -463,6 +521,7 @@ figcaption, caption {
   font-style: italic;
   margin: 0.5em 1.5em;
   text-align: left;
+  caption-side: bottom;
 }
 @media screen {
   /* Auto-collapse boilerplate. */
@@ -517,6 +576,7 @@ cite {
 
 /* tables */
 table {
+  width: auto;
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
@@ -531,6 +591,16 @@ table.center {
 table.left {
   margin-right: auto;
 }
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
 thead, tbody {
   border: 1px solid var(--line-color);
 }
@@ -561,9 +631,11 @@ a.pilcrow {
   margin-left: 3px;
   opacity: 0.2;
   user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
 }
-a.pilcrow[href] { color: var(--pilcrow-weak); }
-a.pilcrow[href]:hover { text-decoration: none; }
 @media not print {
   :hover > a.pilcrow {
     opacity: 1;
@@ -603,26 +675,28 @@ sub, sup {
   font-size: var(--small-font-size);
   line-height: 18px;
   --identifier-width: 15ch;
-}
-#identifiers dt {
-  width: var(--identifier-width);
-  min-width: var(--identifier-width);
-  clear: left;
-  float: left;
-  text-align: right;
-  margin-right: 1ch;
-}
-#identifiers dd {
-  margin: 0;
-  margin-left: calc(1em + var(--identifier-width)) !important;
-  min-width: 5em;
-}
-#identifiers .authors .author {
-  display: inline-block;
-  margin-right: 1.5em;
-}
-#identifiers .authors .org {
-  font-style: italic;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
 }
 
 /* The prepared/rendered info at the very bottom of the page */
@@ -633,9 +707,6 @@ sub, sup {
   margin-top: 2em;
 }
 .docInfo .prepared {
-  float: left;
-}
-.docInfo .prepared {
   float: right;
 }
 
@@ -643,47 +714,48 @@ sub, sup {
 #toc {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
-}
-#toc nav ul {
-  margin: 0 0.5em 0 0;
-  padding: 0;
-  list-style: none;
-}
-#toc nav li {
-  line-height: 1.3em;
-  margin: 2px 0;
-  padding-left: 1.2em;
-  text-indent: -1.2em;
-}
-#toc a.xref {
-  white-space: normal;
-}
-/* references */
-.references dt {
-  text-align: right;
-  font-weight: bold;
-  min-width: 10ch;
-  margin-right: 1.5ch;
-}
-.references dt:target::before {
-  content: "⇒";
-  width: 15px;
-  margin: 0 10px 0 -25px;
-}
-.references dd {
-  margin-left: 12ch !important;
-  overflow: auto;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
 }
 
-.refInstance {
-  margin-bottom: 1.25em;
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
 }
 
-.references .ascii {
-  margin-bottom: 0.25em;
-}
-
-/* index */
 #rfc\.index\.index + ul {
   margin-left: 0;
 }
@@ -691,21 +763,33 @@ sub, sup {
 /* authors */
 address.vcard {
   font-style: normal;
-  margin: 1em 0;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
 }
-address.vcard .nameRole {
-  font-weight: 700;
-  margin-left: 0;
-}
-address.vcard .label {
-  margin: 0.5em 0;
-}
-address.vcard .type {
-  display: none;
-}
-.alternative-contact {
-  margin: 1.5em 0 1em;
-}
+
 hr.addr {
   border-top: 1px dashed;
   margin: 0;
@@ -727,6 +811,7 @@ hr.addr {
   }
 }
 
+/* Comments */
 .rfcEditorRemove p:first-of-type {
   font-style: italic;
 }
@@ -737,7 +822,31 @@ hr.addr {
 .crefSource {
   font-style: italic;
 }
-/* alternative layout for smaller screens */
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
 @media screen and (max-width: 929px) {
   #toc {
     position: fixed;
@@ -748,9 +857,6 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc.active {
-      opacity: 1;
   }
   #toc h2 {
     margin: 0;
@@ -763,17 +869,17 @@ hr.addr {
     background-color: #444;
     color: white;
     cursor: pointer;
-  }
-  #toc h2::before { /* css hamburger */
-    float: right;
-    position: relative;
-    width: 1em;
-    height: 1px;
-    left: -164px;
-    margin: 8px 0 0 0;
-    background: white none repeat scroll 0 0;
-    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-    content: "";
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
   }
   #toc nav {
     display: none;
@@ -784,14 +890,13 @@ hr.addr {
     height: calc(100vh - 48px);
     border-left: 1px solid #ddd;
   }
-  #toc.active nav {
-    display: block;
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
   }
   /* Make the collapsed ToC header render white on gray also when it's a link */
   #toc h2 a,
-  #toc h2 a:link,
-  #toc h2 a:focus,
-  #toc h2 a:hover,
+  #toc h2 a:is(:link, :focus, :hover),
   #toc a.toplink,
   #toc a.toplink:hover {
     color: white;
@@ -799,11 +904,11 @@ hr.addr {
     text-decoration: none;
   }
   #toc a.toplink {
-    margin-top: 2px;
+    margin: 2px 0.5em 0;
   }
 }
 
-/* alternative layout for wide screens */
+/* TOC layout for wide screens */
 @media screen and (min-width: 930px) {
   body {
     padding-right: 360px;
@@ -832,20 +937,12 @@ hr.addr {
     overscroll-behavior: contain;
     scrollbar-width: thin;
   }
-  #toc nav > ul  {
-    margin-bottom: 2em;
-  }
-  #toc ul {
-    margin: 0 0 0 4px;
-    font-size: var(--small-font-size);
-  }
-  #toc ul :is(p, li) {
-    margin: 2px 0;
-    line-height: 22px;
-  }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
   }
 }
 
@@ -888,9 +985,6 @@ hr.addr {
   td {
     border-top: 1px solid #ddd;
   }
-  .toplink {
-    display: none;
-  }
 }
 
 @page :first {
@@ -913,82 +1007,6 @@ hr.addr {
   size: A4;
   margin-bottom: 45mm;
   padding-top: 20px;
-}
-
-/* Changes introduced to fix issues found during implementation */
-
-/* Separate body from document info even without intervening H1 */
-section {
-  clear: both;
-}
-
-/* Top align author divs, to avoid names without organization dropping level with org names */
-.author {
-  vertical-align: top;
-}
-
-/* Style section numbers with more space between number and title */
-.section-number {
-  padding-right: 0.5em;
-}
-
-/* Add styling for a link in the ToC that points to the top of the document */
-a.toplink {
-  float: right;
-  margin: 8px 0.5em 0;
-}
-
-/* Provide styling for table cell text alignment */
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
-}
-
-/* Make the alternative author contact information look less like just another
-   author, and group it closer with the primary author contact information */
-.alternative-contact {
-  margin: 0.5em 0 0.25em 0;
-}
-address .non-ascii {
-  margin: 0 0 0 2em;
-}
-
-/* With it being possible to set tables with alignment
-  left, center, and right, { width: 100%; } does not make sense */
-table {
-  width: auto;
-}
-
-/* Avoid reference text that sits in a block with very wide left margin,
-   because of a long floating dt label.*/
-.references dd {
-  overflow: visible;
-}
-
-/* Control caption placement */
-caption {
-  caption-side: bottom;
-}
-
-/* Limit the width of the author address vcard, so names in right-to-left
-   script don't end up on the other side of the page. */
-
-address.vcard {
-  max-width: 20em;
-  margin-right: auto;
-}
-
-/* For address alignment dependent on LTR or RTL scripts */
-address div.left {
-  text-align: left;
-}
-address div.right {
-  text-align: right;
 }
 
 /* Dark mode. */
@@ -1027,11 +1045,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Discovery Requirements</td>
-<td class="right">September 2024</td>
+<td class="right">November 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Hogben, et al.</td>
-<td class="center">Expires 16 March 2025</td>
+<td class="center">Expires 1 June 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1044,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-interop-mimi-discovery-requirements-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-09-12" class="published">12 September 2024</time>
+<time datetime="2024-11-28" class="published">28 November 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-03-16">16 March 2025</time></dd>
+<dd class="expires"><time datetime="2025-06-01">1 June 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1071,10 +1089,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </dd>
 </dl>
 </div>
-<h1 id="title">MIMI Discovery Requirements</h1>
+<h1 id="title">User Discovery Requirements</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines requirements for the discovery problem within the More Instant Messaging Interoperability (MIMI) working group. Discovery is essential for interoperability, allowing message senders to locate recipients across diverse platforms using globally unique, cross-service identifiers (e.g., email addresses, phone numbers). The core challenge involves reliably mapping these identifiers to messaging service providers and determining the reachability of a recipient's identifier across multiple providers.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines requirements for the user discovery problem within the More Instant Messaging Interoperability (MIMI) working group. User discovery is essential for interoperability, allowing message senders to locate recipients across diverse platforms using globally unique, cross-service identifiers (e.g., email addresses, phone numbers). The core challenge involves reliably mapping these identifiers to messaging service providers and determining the reachability of a recipient's identifier across multiple providers.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1111,7 +1129,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 March 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 June 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1141,434 +1159,208 @@ svg :is([fill="white"], [fill^="#fff"]) {
         </h2>
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
-                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-problem-statement" class="internal xref">Problem Statement</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-prior-efforts" class="internal xref">Prior Efforts</a></p>
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-user-discovery-problem-stat" class="internal xref">User Discovery Problem Statement</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-architectural-models" class="internal xref">Architectural Models</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-centralized-dp-monolithic-s" class="internal xref">Centralized DP (Monolithic Service)</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.1">
-                    <p id="section-toc.1-1.4.2.1.2.1.1"><a href="#section-4.1.1" class="auto internal xref">4.1.1</a>.  <a href="#name-advantages" class="internal xref">Advantages</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.2">
-                    <p id="section-toc.1-1.4.2.1.2.2.1"><a href="#section-4.1.2" class="auto internal xref">4.1.2</a>.  <a href="#name-drawbacks" class="internal xref">Drawbacks</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-hierarchical-dps-discovery-" class="internal xref">Hierarchical DPs (Discovery Resolvers)</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.1">
-                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="auto internal xref">4.2.1</a>.  <a href="#name-advantages-2" class="internal xref">Advantages</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.2">
-                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="auto internal xref">4.2.2</a>.  <a href="#name-drawbacks-2" class="internal xref">Drawbacks</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
-                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-federated-dps-distributed-p" class="internal xref">Federated DPs (Distributed Peer Service)</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.1">
-                    <p id="section-toc.1-1.4.2.3.2.1.1"><a href="#section-4.3.1" class="auto internal xref">4.3.1</a>.  <a href="#name-advantages-3" class="internal xref">Advantages</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.2">
-                    <p id="section-toc.1-1.4.2.3.2.2.1"><a href="#section-4.3.2" class="auto internal xref">4.3.2</a>.  <a href="#name-drawbacks-3" class="internal xref">Drawbacks</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
-                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-additional-considerations-o" class="internal xref">Additional Considerations on Architectural Models</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4.2.1">
-                    <p id="section-toc.1-1.4.2.4.2.1.1"><a href="#section-4.4.1" class="auto internal xref">4.4.1</a>.  <a href="#name-telephone-number-csis" class="internal xref">Telephone Number CSIs</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4.2.2">
-                    <p id="section-toc.1-1.4.2.4.2.2.1"><a href="#section-4.4.2" class="auto internal xref">4.4.2</a>.  <a href="#name-bias-mitigation" class="internal xref">Bias Mitigation</a></p>
-</li>
-                </ul>
-</li>
-            </ul>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-prior-efforts" class="internal xref">Prior Efforts</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-summary-of-requirements" class="internal xref">Summary of Requirements</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-authenticating-mappings-req" class="internal xref">Authenticating Mappings Requirements</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-functional-requirements" class="internal xref">Functional Requirements</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-privacy-and-security-requir" class="internal xref">Privacy and Security Requirements</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-recipient-authorization-of-" class="internal xref">Recipient Authorization of Mappings</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-preferences" class="internal xref">Preferences</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
-                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-basic-recipients-preference" class="internal xref">Basic Recipient's Preference Requirement</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
-                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-recipients-critical-user-jo" class="internal xref">Recipient's Critical User Journeys (implementations)</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-recipient-preferences-in-ma" class="internal xref">Recipient Preferences in Mappings</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-discovery-protocol-requirem" class="internal xref">Discovery Protocol Requirements</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-identifier-types" class="internal xref">Identifier Types</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-discovery-response-requirem" class="internal xref">Discovery Response Requirements</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2.2.1">
-                    <p id="section-toc.1-1.8.2.2.2.1.1"><a href="#section-8.2.1" class="auto internal xref">8.2.1</a>.  <a href="#name-cardinalities" class="internal xref">Cardinalities</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2.2.2">
-                    <p id="section-toc.1-1.8.2.2.2.2.1"><a href="#section-8.2.2" class="auto internal xref">8.2.2</a>.  <a href="#name-response-format" class="internal xref">Response format</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
-                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-discovery-request-requireme" class="internal xref">Discovery Request Requirement</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3.2.1">
-                    <p id="section-toc.1-1.8.2.3.2.1.1"><a href="#section-8.3.1" class="auto internal xref">8.3.1</a>.  <a href="#name-requests" class="internal xref">Requests</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3.2.2">
-                    <p id="section-toc.1-1.8.2.3.2.2.1"><a href="#section-8.3.2" class="auto internal xref">8.3.2</a>.  <a href="#name-default-behavior-disclosure" class="internal xref">Default behavior disclosure</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3.2.3">
-                    <p id="section-toc.1-1.8.2.3.2.3.1"><a href="#section-8.3.3" class="auto internal xref">8.3.3</a>.  <a href="#name-client-rate-limit" class="internal xref">Client rate limit</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3.2.4">
-                    <p id="section-toc.1-1.8.2.3.2.4.1"><a href="#section-8.3.4" class="auto internal xref">8.3.4</a>.  <a href="#name-server-rate-limit" class="internal xref">Server rate limit</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3.2.5">
-                    <p id="section-toc.1-1.8.2.3.2.5.1"><a href="#section-8.3.5" class="auto internal xref">8.3.5</a>.  <a href="#name-rate-limiting-context" class="internal xref">Rate-limiting context</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.4">
-                <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="auto internal xref">8.4</a>.  <a href="#name-privacy-requirements" class="internal xref">Privacy Requirements</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.4.2.1">
-                    <p id="section-toc.1-1.8.2.4.2.1.1"><a href="#section-8.4.1" class="auto internal xref">8.4.1</a>.  <a href="#name-requirement" class="internal xref">Requirement</a></p>
-</li>
-                </ul>
-</li>
-            </ul>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-sender-retrieval-of-mapping" class="internal xref">Sender Retrieval of Mappings</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-operational-requirements" class="internal xref">Operational Requirements</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-mapping-authenticity-verifi" class="internal xref">Mapping Authenticity Verification</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-support-for-varying-mapping" class="internal xref">Support for Varying Mapping Results</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-protecting-sender-and-recip" class="internal xref">Protecting Sender and Recipient Privacy</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-in-transit-encryption" class="internal xref">In-Transit Encryption</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-protection-against-enumerat" class="internal xref">Protection Against Enumeration Attacks</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#section-14" class="auto internal xref">14</a>. <a href="#name-mapping-removal" class="internal xref">Mapping Removal</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#section-15" class="auto internal xref">15</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16">
+            <p id="section-toc.1-1.16.1"><a href="#section-16" class="auto internal xref">16</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17">
+            <p id="section-toc.1-1.17.1"><a href="#section-17" class="auto internal xref">17</a>. <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18">
+            <p id="section-toc.1-1.18.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-architectural-models" class="internal xref">Architectural Models</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-registry" class="internal xref">Registry</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-csi-release-timeliness" class="internal xref">CSI Release Timeliness</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.1">
+                <p id="section-toc.1-1.18.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-centralized-dp-monolithic-s" class="internal xref">Centralized DP (Monolithic Service)</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.1">
-                    <p id="section-toc.1-1.9.2.2.2.1.1"><a href="#section-9.2.1" class="auto internal xref">9.2.1</a>.  <a href="#name-mapping-prioritization-requ" class="internal xref">Mapping Prioritization Requirement</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.1.2.1">
+                    <p id="section-toc.1-1.18.2.1.2.1.1"><a href="#appendix-A.1.1" class="auto internal xref">A.1.1</a>.  <a href="#name-advantages" class="internal xref">Advantages</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.2">
-                    <p id="section-toc.1-1.9.2.2.2.2.1"><a href="#section-9.2.2" class="auto internal xref">9.2.2</a>.  <a href="#name-conflict-resolution-protoco" class="internal xref">Conflict Resolution Protocol Requirement</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.3">
-                    <p id="section-toc.1-1.9.2.2.2.3.1"><a href="#section-9.2.3" class="auto internal xref">9.2.3</a>.  <a href="#name-invalidate-capability-requi" class="internal xref">Invalidate Capability Requirement</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.1.2.2">
+                    <p id="section-toc.1-1.18.2.1.2.2.1"><a href="#appendix-A.1.2" class="auto internal xref">A.1.2</a>.  <a href="#name-drawbacks" class="internal xref">Drawbacks</a></p>
 </li>
                 </ul>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
-                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-csi-claim-timeliness" class="internal xref">CSI Claim Timeliness</a></p>
-</li>
-            </ul>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.2">
+                <p id="section-toc.1-1.18.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-hierarchical-dps-discovery-" class="internal xref">Hierarchical DPs (Discovery Resolvers)</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
-                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-blackhole-prevention" class="internal xref">Blackhole Prevention</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.2.2.1">
+                    <p id="section-toc.1-1.18.2.2.2.1.1"><a href="#appendix-A.2.1" class="auto internal xref">A.2.1</a>.  <a href="#name-advantages-2" class="internal xref">Advantages</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
-                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-ddos-enumeration-and-spam-p" class="internal xref">DDoS, Enumeration and Spam Prevention and Mitigation</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.2.2.2">
+                    <p id="section-toc.1-1.18.2.2.2.2.1"><a href="#appendix-A.2.2" class="auto internal xref">A.2.2</a>.  <a href="#name-drawbacks-2" class="internal xref">Drawbacks</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
-                <p id="section-toc.1-1.10.2.3.1"><a href="#section-10.3" class="auto internal xref">10.3</a>.  <a href="#name-encryption-and-authenticati" class="internal xref">Encryption and Authentication</a></p>
+                </ul>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.4">
-                <p id="section-toc.1-1.10.2.4.1"><a href="#section-10.4" class="auto internal xref">10.4</a>.  <a href="#name-notes" class="internal xref">Notes</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.3">
+                <p id="section-toc.1-1.18.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-federated-dps-distributed-p" class="internal xref">Federated DPs (Distributed Peer Service)</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.3.2.1">
+                    <p id="section-toc.1-1.18.2.3.2.1.1"><a href="#appendix-A.3.1" class="auto internal xref">A.3.1</a>.  <a href="#name-advantages-3" class="internal xref">Advantages</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.3.2.2">
+                    <p id="section-toc.1-1.18.2.3.2.2.1"><a href="#appendix-A.3.2" class="auto internal xref">A.3.2</a>.  <a href="#name-drawbacks-3" class="internal xref">Drawbacks</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.4">
+                <p id="section-toc.1-1.18.2.4.1"><a href="#appendix-A.4" class="auto internal xref">A.4</a>.  <a href="#name-additional-considerations-o" class="internal xref">Additional Considerations on Architectural Models</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.4.2.1">
+                    <p id="section-toc.1-1.18.2.4.2.1.1"><a href="#appendix-A.4.1" class="auto internal xref">A.4.1</a>.  <a href="#name-telephone-number-csis" class="internal xref">Telephone Number CSIs</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.4.2.2">
+                    <p id="section-toc.1-1.18.2.4.2.2.1"><a href="#appendix-A.4.2" class="auto internal xref">A.4.2</a>.  <a href="#name-bias-mitigation" class="internal xref">Bias Mitigation</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19">
+            <p id="section-toc.1-1.19.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-recipients-critical-user-jo" class="internal xref">Recipient's Critical User Journeys</a></p>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20">
+            <p id="section-toc.1-1.20.1"><a href="#appendix-C" class="auto internal xref">Appendix C</a>.  <a href="#name-protecting-sender-recipient" class="internal xref">Protecting Sender-Recipient Social Graph Edge</a></p>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21">
+            <p id="section-toc.1-1.21.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
-            <p id="section-toc.1-1.14.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.22">
+            <p id="section-toc.1-1.22.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
 </section>
 </div>
-<div id="terminology">
+<div id="introduction">
 <section id="section-1">
-      <h2 id="name-terminology">
-<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+<p id="section-1-1">MIMI user discovery enables a message sender to locate messaging service providers on which a particular recipient can be reached. Currently, users often need to ask contacts what service they are on out-of-band or try multiple services, which creates friction. Specifically, discovery helps a user on one messaging service (Alice on Service A) to find another user on a potentially different or the same service (Bob on Service B) without prior knowledge of Bob's provider, and in a provider-neutral manner.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Discovery is necessary because the identifiers we commonly have for contacts (phone numbers, email addresses, etc.) do not necessarily tell us which messaging service they are using. Someone with the email alice@gmail.com might use iMessage, Signal, or another service entirely. Thus, the core problem is how to take one of these cross-service identifiers and learn the messaging service provider that the user is using and how to communicate with them on that service.<a href="#section-1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="conventions-and-definitions">
+<section id="section-2">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
 "<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
-appear in all capitals, as shown here.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">Glossary of terms:<a href="#section-1-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-1-3">
-<li id="section-1-3.1">
-          <p id="section-1-3.1.1">A <strong>Service Specific Identifier (SSI)</strong> is a unique identifier for a user within the context of a single messaging service provider. It is not globally unique across services. A fully-qualified SSI includes the messaging service provider's unique identifier, making it globally unique. Note that existence of an unqualified SSI on two or more services does not guarantee that the associated accounts belong to the same user. Thus, linking SSIs across services requires other verified data to establish a match. An example of a service specific identifier is a user's X/Twitter handle.<a href="#section-1-3.1.1" class="pilcrow">¶</a></p>
+appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2-2">
+<li id="section-2-2.1">
+          <p id="section-2-2.1.1"><em>Cross-Service Identifier (CSI)</em>: A globally unique identifier for a user across multiple services (e.g., E.164 phone number, email address).<a href="#section-2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-1-3.2">
-          <p id="section-1-3.2.1">A <strong>Cross-Service Identifier (CSI)</strong> is a globally unique identifier for a user that can be used to identify the user across multiple services. For example, a user's E.164 phone number, email address, or other service independent identifiers are CSIs, since they can be used to identify the user across multiple different services.<a href="#section-1-3.2.1" class="pilcrow">¶</a></p>
+        <li id="section-2-2.2">
+          <p id="section-2-2.2.1"><em>Cross-Service Identifier Provider (CSIP)</em>: An entity that issues and manages CSIs (e.g., telecom providers, email providers).<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-1-3.3">
-          <p id="section-1-3.3.1">A <strong>Messaging Service Provider (MSP)</strong> provides messaging, voice, video and other forms of real-time communications services to end users. Examples of messaging service providers are WhatsApp, Messages, iMessage, Wire, Matrix, Signal etc. A user is reachable using one or more CSIs and may have at least one SSI internal to the MSP platform.<a href="#section-1-3.3.1" class="pilcrow">¶</a></p>
+        <li id="section-2-2.3">
+          <p id="section-2-2.3.1"><em>Messaging Service Provider (MSP)</em>: An entity offering messaging services to end users (e.g., WhatsApp, Signal, iMessage).<a href="#section-2-2.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-1-3.4">
-          <p id="section-1-3.4.1">A <strong>Cross-Service Identifier Provider (CSIP)</strong> is an entity that issues, manages, and verifies CSIs. Examples are traditional telecom providers, email providers, and other platforms capable of issuing user-controlled identifiers.<a href="#section-1-3.4.1" class="pilcrow">¶</a></p>
+        <li id="section-2-2.4">
+          <p id="section-2-2.4.1"><em>Service Specific Identifier (SSI)</em>: A unique identifier for a user within a single MSP (e.g., a Twitter handle).<a href="#section-2-2.4.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-1-3.5">
-          <p id="section-1-3.5.1">A <strong>Discovery Provider (DP)</strong> is an entity that facilitates the discovery reachability as outlined in this requirements document. This involves creating, managing, and leveraging authoritative mappings of CSIs to the MSPs where users can be reached. We expect that a DP may be operated by or affiliated with an MSP or a third party.<a href="#section-1-3.5.1" class="pilcrow">¶</a></p>
+        <li id="section-2-2.5">
+          <p id="section-2-2.5.1"><em>Discovery Provider (DP)</em>: An entity that stores and facilitates the discovery of MSPs for a given CSI. A DP may be operated by an MSP or a third party.<a href="#section-2-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-2-2.6">
+          <p id="section-2-2.6.1"><em>Verifiable Mapping</em>: A representation of the cryptographic binding of a CSI and the set of MSPs where the CSI is reachable.<a href="#section-2-2.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-2-2.7">
+          <p id="section-2-2.7.1"><em>Recipient</em>: A user who possesses a CSI that has been assigned by a CSIP and authorizes verifiable mapping of that CSI to an MSP set.<a href="#section-2-2.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-2-2.8">
+          <p id="section-2-2.8.1"><em>Sender</em>: A user who queries a DP to discover the MSPs for a given CSI.<a href="#section-2-2.8.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
 </section>
 </div>
-<div id="introduction">
-<section id="section-2">
-      <h2 id="name-introduction">
-<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+<div id="user-discovery-problem-statement">
+<section id="section-3">
+      <h2 id="name-user-discovery-problem-stat">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-user-discovery-problem-stat" class="section-name selfRef">User Discovery Problem Statement</a>
       </h2>
-<p id="section-2-1">MIMI discovery seeks to enable users to easily connect and communicate across different messaging platforms, even if they don't know which specific platform the other person uses. Currently, users often need to ask contacts what service they are on out-of-band, or try multiple services, which creates friction. Specifically, discovery helps a user on one messaging service (Alice on Service A) to find another user on a potentially different or same service (Bob on Service B) in a provider-neutral manner.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">Discovery is necessary because the identifiers we commonly have for contacts (phone numbers, email addresses, etc.) do not necessarily tell us which messaging service they are using. Someone with the email alice@gmail.com might use iMessage, Signal, or another service entirely. Thus, the core problem is how to take one of these cross-service identifiers and learn the messaging service provider that the user is using, and how to communicate with them on that service.<a href="#section-2-2" class="pilcrow">¶</a></p>
-<div id="problem-statement">
-<section id="section-2.1">
-        <h3 id="name-problem-statement">
-<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-problem-statement" class="section-name selfRef">Problem Statement</a>
-        </h3>
-<p id="section-2.1-1">The discovery problem involves:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-2.1-2">
-<li id="section-2.1-2.1">
-            <p id="section-2.1-2.1.1">Asserting verifiable mappings between CSIs and MSPs, and<a href="#section-2.1-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-3-1">User discovery involves two key aspects:<a href="#section-3-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3-2">
+<li id="section-3-2.1">
+          <p id="section-3-2.1.1"><em>Authorization</em>: Recipients must be able to authorize verifiable mappings between their CSIs and their chosen MSPs.<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-2.1-2.2">
-            <p id="section-2.1-2.2.1">Looking up mappings to determine MSPs for which a CSI can be reached for messaging.<a href="#section-2.1-2.2.1" class="pilcrow">¶</a></p>
+        <li id="section-3-2.2">
+          <p id="section-3-2.2.1"><em>Lookup</em>: Senders must be able to query these mappings to determine where a recipient can be reached.<a href="#section-3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-        </ol>
-<p id="section-2.1-3">Discovered mappings must be verifiable to ensure they are accurate. Crucially, discovery must prioritize user privacy, allowing users to control their discoverability, and it must integrate well with end-to-end encryption and other MIMI protocols.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
-<p id="section-2.1-4">Note that mapping lookup is distinct from the retrieval of the user's SSI and cryptographic keys. Retrieval of the SSI and keys typically occurs as part of the messaging process and can easily be done after the MSP for the message recipient has been located through discovery. For example, an MSP might store a mapping of CSIs to SSIs and cryptographic keys. The client would then retrieve this data just before Alice sends a message to Bob, following the successful discovery that Bob is reachable through the MSP.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
-<p id="section-2.1-5">The rest of this document describes a series of requirements for the discovery problem.<a href="#section-2.1-5" class="pilcrow">¶</a></p>
-</section>
-</div>
+      </ol>
+<p id="section-3-3">To authorize verifiable mappings, the recipient must:<a href="#section-3-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-4.1">
+          <p id="section-3-4.1.1">Possess a valid, CSIP-issued CSI.<a href="#section-3-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-3-4.2">
+          <p id="section-3-4.2.1">Have active accounts with each MSP to be mapped.<a href="#section-3-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-3-4.3">
+          <p id="section-3-4.3.1">Associate the CSI with each of those accounts.<a href="#section-3-4.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-3-5">Discovered mappings must be verifiable to ensure they are accurate. Crucially, discovery must prioritize user privacy, allowing users to control their discoverability, and it must integrate well with end-to-end encryption and other MIMI protocols.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-6"><strong>Note:</strong> This document focuses on discovering <em>which</em> MSPs a user is on. Retrieving SSIs and cryptographic keys can be a separate, subsequent step.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">The rest of this document describes a series of requirements for the discovery problem.<a href="#section-3-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="prior-efforts">
-<section id="section-3">
-      <h2 id="name-prior-efforts">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-prior-efforts" class="section-name selfRef">Prior Efforts</a>
-      </h2>
-<p id="section-3-1">Discovery services are far from new on the Internet. The whois protocol <span>[<a href="#RFC3912" class="cite xref">RFC3912</a>]</span>, largely focused on mapping domain names to associated services. It was one of the earliest discovery services deployed on the Internet. DNS SRV records, specified in <span>[<a href="#RFC2782" class="cite xref">RFC2782</a>]</span>, allow a similar process - given a domain name, a user can discover available services, such as VoIP based on the Session Initiation Protocol (SIP) <span>[<a href="#RFC3261" class="cite xref">RFC3261</a>]</span> <span>[<a href="#RFC3263" class="cite xref">RFC3263</a>]</span>. SRV records were adapted specifically for messaging in <span>[<a href="#RFC3861" class="cite xref">RFC3861</a>]</span>. However, both whois and DNS SRV records rely on domain names as lookup keys, making them unsuitable for identifiers like mobile phone numbers, which don't have inherent domain associations.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">ENUM <span>[<a href="#RFC6117" class="cite xref">RFC6117</a>]</span> addressed this limitation. It used DNS to lookup phone numbers by reversing the digits and adding the "e164.arpa" suffix. This allowed delegation of portions of the namespace to telco providers who owned specific number prefixes. While technically straightforward, public deployment of ENUM was hampered by challenges in establishing authority for prefixes. However, private ENUM <span>[<a href="#RFC6116" class="cite xref">RFC6116</a>]</span> services have become relatively common, facilitating functions like MMS routing within messaging.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">Another attempt was ViPR (Verification Involving PSTN Reachability) <span>[<a href="#I-D.rosenberg-dispatch-vipr-overview" class="cite xref">I-D.rosenberg-dispatch-vipr-overview</a>]</span> <span>[<a href="#I-D.petithuguenin-vipr-pvp" class="cite xref">I-D.petithuguenin-vipr-pvp</a>]</span>. ViPR utilized a peer-to-peer network based on RELOAD (Resource Location and Discovery) <span>[<a href="#RFC6940" class="cite xref">RFC6940</a>]</span> to operate between enterprises. It addressed the authority problem by authorizing records based on proof of forward routability but faced the same network effects issue as ENUM. ViPR attempted to address incentive problems by focusing on enterprises seeking cost savings by bypassing the phone network. Ultimately, network effects challenges (among other protocol-unrelated issues) prevented widespread deployment.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">Discovery and lookup services are now commonplace on the Internet but are largely scoped within large providers such as Facebook, Twitter, WhatsApp, and others.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">The MIMI discovery service requires a solution that spans providers.<a href="#section-3-5" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="architectural-models">
 <section id="section-4">
-      <h2 id="name-architectural-models">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-architectural-models" class="section-name selfRef">Architectural Models</a>
+      <h2 id="name-prior-efforts">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-prior-efforts" class="section-name selfRef">Prior Efforts</a>
       </h2>
-<p id="section-4-1">To ensure completeness and to address implementation considerations for MIMI DP, we present several potential architectural models. The working group observed these requirements are similar among these models and opted to maintain architectural neutrality for the discovery protocol. However, we will outline requirements for the roles of DPs, how they interact with each other, MSPs in a federated model, and how DPs accommodate queries from both MSPs and users.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<div id="centralized-dp-monolithic-service">
-<section id="section-4.1">
-        <h3 id="name-centralized-dp-monolithic-s">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-centralized-dp-monolithic-s" class="section-name selfRef">Centralized DP (Monolithic Service)</a>
-        </h3>
-<p id="section-4.1-1">A globally accessible, authoritative database (potentially sharded/replicated) stores all authenticated CSI mappings. This monolithic service, implemented across synchronized global nodes, handles all CSI queries from messaging platforms and acts as the single source of truth for mapping data, even if certain mappings may be restricted in specific regions due to geopolitical considerations.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
-<div id="advantages">
-<section id="section-4.1.1">
-          <h4 id="name-advantages">
-<a href="#section-4.1.1" class="section-number selfRef">4.1.1. </a><a href="#name-advantages" class="section-name selfRef">Advantages</a>
-          </h4>
-<ul class="normal">
-<li class="normal" id="section-4.1.1-1.1">
-              <p id="section-4.1.1-1.1.1">Standardization and uniform control over mapping creation, updates, and data formats.<a href="#section-4.1.1-1.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.1.1-1.2">
-              <p id="section-4.1.1-1.2.1">Promotes fair and unbiased CSI mapping discovery.<a href="#section-4.1.1-1.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.1.1-1.3">
-              <p id="section-4.1.1-1.3.1">Single source of truth for mapping simplifies data management and ensures consistency.<a href="#section-4.1.1-1.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.1.1-1.4">
-              <p id="section-4.1.1-1.4.1">Sharding/replication can address geographical distribution and performance needs.<a href="#section-4.1.1-1.4.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="drawbacks">
-<section id="section-4.1.2">
-          <h4 id="name-drawbacks">
-<a href="#section-4.1.2" class="section-number selfRef">4.1.2. </a><a href="#name-drawbacks" class="section-name selfRef">Drawbacks</a>
-          </h4>
-<ul class="normal">
-<li class="normal" id="section-4.1.2-1.1">
-              <p id="section-4.1.2-1.1.1">Centralization of sensitive user data raises privacy risks.<a href="#section-4.1.2-1.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.1.2-1.2">
-              <p id="section-4.1.2-1.2.1">May conflict with data localization regulations.<a href="#section-4.1.2-1.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.1.2-1.3">
-              <p id="section-4.1.2-1.3.1">Single point of failure vulnerability from outages affecting the entire system.<a href="#section-4.1.2-1.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.1.2-1.4">
-              <p id="section-4.1.2-1.4.1">Potential difficulty with immediate global updates for rapidly changing mappings.<a href="#section-4.1.2-1.4.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-</section>
-</div>
-<div id="hierarchical-dps-discovery-resolvers">
-<section id="section-4.2">
-        <h3 id="name-hierarchical-dps-discovery-">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-hierarchical-dps-discovery-" class="section-name selfRef">Hierarchical DPs (Discovery Resolvers)</a>
-        </h3>
-<p id="section-4.2-1">A global root Discovery Provider (DP) directs mapping requests to authoritative DPs based on CSI structure (e.g., country codes for E.164 phone numbers) or sharding mechanisms. The root DP, similar to hierarchical DNS, acts as a directory service, holding pointers to authoritative DPs rather than mappings themselves. Alternatives to hierarchical resolution, like the LoST protocol <span>[<a href="#RFC5222" class="cite xref">RFC5222</a>]</span>, or distributed hash tables (DHTs), can achieve similar outcomes.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
-<div id="advantages-1">
-<section id="section-4.2.1">
-          <h4 id="name-advantages-2">
-<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-advantages-2" class="section-name selfRef">Advantages</a>
-          </h4>
-<ul class="normal">
-<li class="normal" id="section-4.2.1-1.1">
-              <p id="section-4.2.1-1.1.1">Scalability from distributed load and mapping management across multiple DPs.<a href="#section-4.2.1-1.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.2.1-1.2">
-              <p id="section-4.2.1-1.2.1">Flexibility that allows different DPs to specialize in specific CSI ranges for regions.<a href="#section-4.2.1-1.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.2.1-1.3">
-              <p id="section-4.2.1-1.3.1">Better alignment with data localization requirements.<a href="#section-4.2.1-1.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="drawbacks-1">
-<section id="section-4.2.2">
-          <h4 id="name-drawbacks-2">
-<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-drawbacks-2" class="section-name selfRef">Drawbacks</a>
-          </h4>
-<ul class="normal">
-<li class="normal" id="section-4.2.2-1.1">
-              <p id="section-4.2.2-1.1.1">Requires coordination and maintenance of hierarchy.<a href="#section-4.2.2-1.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.2.2-1.2">
-              <p id="section-4.2.2-1.2.1">Root DP failure could disrupt the entire system.<a href="#section-4.2.2-1.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.2.2-1.3">
-              <p id="section-4.2.2-1.3.1">Potential delays due to additional hops in the discovery process.<a href="#section-4.2.2-1.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-</section>
-</div>
-<div id="federated-dps-distributed-peer-service">
-<section id="section-4.3">
-        <h3 id="name-federated-dps-distributed-p">
-<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-federated-dps-distributed-p" class="section-name selfRef">Federated DPs (Distributed Peer Service)</a>
-        </h3>
-<p id="section-4.3-1">In a federated model, multiple independent DPs collaborate to provide CSI mapping discovery. Each DP holds a subset of mappings and pointers to other DPs, with no central authority dictating mapping locations. Discovering all mappings for a CSI may involve querying multiple DPs. DPs can exchange CSI information or recursively query each other. The specifics of DP federation are determined by business agreements, not technical requirements. A variation of this model involves messaging platforms acting as their own DPs, managing mappings for their users.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
-<div id="advantages-2">
-<section id="section-4.3.1">
-          <h4 id="name-advantages-3">
-<a href="#section-4.3.1" class="section-number selfRef">4.3.1. </a><a href="#name-advantages-3" class="section-name selfRef">Advantages</a>
-          </h4>
-<ul class="normal">
-<li class="normal" id="section-4.3.1-1.1">
-              <p id="section-4.3.1-1.1.1">Decentralization ensures there is no single point of control or failure. The system can continue functioning even if some DPs are unavailable.<a href="#section-4.3.1-1.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.3.1-1.2">
-              <p id="section-4.3.1-1.2.1">Mappings can be distributed according to local regulations.<a href="#section-4.3.1-1.2.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="drawbacks-2">
-<section id="section-4.3.2">
-          <h4 id="name-drawbacks-3">
-<a href="#section-4.3.2" class="section-number selfRef">4.3.2. </a><a href="#name-drawbacks-3" class="section-name selfRef">Drawbacks</a>
-          </h4>
-<ul class="normal">
-<li class="normal" id="section-4.3.2-1.1">
-              <p id="section-4.3.2-1.1.1">Discovery process may involve querying multiple DPs, increasing network load.<a href="#section-4.3.2-1.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.3.2-1.2">
-              <p id="section-4.3.2-1.2.1">Potential for bias as DPs may prioritize their own mappings, leading to uneven results.<a href="#section-4.3.2-1.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.3.2-1.3">
-              <p id="section-4.3.2-1.3.1">Requires robust mechanisms to prevent CSI impersonation and ensure trust between DPs.<a href="#section-4.3.2-1.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-4.3.2-1.4">
-              <p id="section-4.3.2-1.4.1">Pairwise relationships in a federated DP model could create a barrier to entry for smaller MSP/DPs, similar to the trust requirements in the DKIM <span>[<a href="#RFC6376" class="cite xref">RFC6376</a>]</span> and DMARC <span>[<a href="#RFC8616" class="cite xref">RFC8616</a>]</span> ecosystems.<a href="#section-4.3.2-1.4.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-</section>
-</div>
-<div id="additional-considerations-on-architectural-models">
-<section id="section-4.4">
-        <h3 id="name-additional-considerations-o">
-<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-additional-considerations-o" class="section-name selfRef">Additional Considerations on Architectural Models</a>
-        </h3>
-<div id="telephone-number-csis">
-<section id="section-4.4.1">
-          <h4 id="name-telephone-number-csis">
-<a href="#section-4.4.1" class="section-number selfRef">4.4.1. </a><a href="#name-telephone-number-csis" class="section-name selfRef">Telephone Number CSIs</a>
-          </h4>
-<p id="section-4.4.1-1">Telephone number portability is complex due to its reliance on real-time queries to proprietary and legacy systems. Overall, the authenticated mappings proposed for MIMI may necessitate additional platform measures to assess mapping freshness and ensure up-to-date reachability responses.<a href="#section-4.4.1-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="bias-mitigation">
-<section id="section-4.4.2">
-          <h4 id="name-bias-mitigation">
-<a href="#section-4.4.2" class="section-number selfRef">4.4.2. </a><a href="#name-bias-mitigation" class="section-name selfRef">Bias Mitigation</a>
-          </h4>
-<p id="section-4.4.2-1">Bias occurs when a DP prioritizes mappings to its affiliated MSP without consideration of what is best for end users. Mitigating bias is essential to ensure fair and equitable discovery of authenticated mappings across different services. The working group has decided to defer such mitigation to policies and regulations, excluding it from the discovery protocol.<a href="#section-4.4.2-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
+<p id="section-4-1">Discovery services are far from new on the Internet. The whois protocol <span>[<a href="#RFC3912" class="cite xref">RFC3912</a>]</span>, largely focused on mapping domain names to associated services, was one of the earliest discovery services deployed on the Internet. DNS SRV records, specified in <span>[<a href="#RFC2782" class="cite xref">RFC2782</a>]</span>, allow a similar process—given a domain name, a user can discover available services, such as VoIP based on the Session Initiation Protocol (SIP) <span>[<a href="#RFC3261" class="cite xref">RFC3261</a>]</span> <span>[<a href="#RFC3263" class="cite xref">RFC3263</a>]</span>. SRV records were adapted specifically for messaging in <span>[<a href="#RFC3861" class="cite xref">RFC3861</a>]</span>. However, both whois and DNS SRV records rely on domain names as lookup keys, making them unsuitable for identifiers like mobile phone numbers, which don't have inherent domain associations.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">ENUM <span>[<a href="#RFC6117" class="cite xref">RFC6117</a>]</span> addressed this limitation. It used DNS to look up phone numbers by reversing the digits and adding the "e164.arpa" suffix. This allowed delegation of portions of the namespace to telecom providers who owned specific number prefixes. While technically straightforward, public deployment of ENUM was hampered by challenges in establishing authority for prefixes. However, private ENUM <span>[<a href="#RFC6116" class="cite xref">RFC6116</a>]</span> services have become relatively common, facilitating functions like MMS routing within messaging.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">Another attempt was ViPR (Verification Involving PSTN Reachability) <span>[<a href="#I-D.rosenberg-dispatch-vipr-overview" class="cite xref">I-D.rosenberg-dispatch-vipr-overview</a>]</span> <span>[<a href="#I-D.petithuguenin-vipr-pvp" class="cite xref">I-D.petithuguenin-vipr-pvp</a>]</span>. ViPR utilized a peer-to-peer network based on RELOAD (Resource Location and Discovery) <span>[<a href="#RFC6940" class="cite xref">RFC6940</a>]</span> to operate between enterprises. It addressed the authority problem by authorizing records based on proof of forward routability but faced the same network effects issue as ENUM. ViPR attempted to address incentive problems by focusing on enterprises seeking cost savings by bypassing the phone network. Ultimately, network effects challenges (among other protocol-unrelated issues) prevented widespread deployment.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-4">Discovery and lookup services are now commonplace on the Internet but are largely scoped within large providers such as Facebook, Twitter, WhatsApp, and others.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-5">The MIMI discovery service requires a solution that works across providers.<a href="#section-4-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="summary-of-requirements">
@@ -1576,6 +1368,7 @@ appear in all capitals, as shown here.<a href="#section-1-1" class="pilcrow">¶<
       <h2 id="name-summary-of-requirements">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-summary-of-requirements" class="section-name selfRef">Summary of Requirements</a>
       </h2>
+<p id="section-5-1">This section provides a summary of the requirements for MIMI user discovery.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
         <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
@@ -1590,654 +1383,238 @@ appear in all capitals, as shown here.<a href="#section-1-1" class="pilcrow">¶<
           <tr>
             <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1">
-              <strong>Authenticating Mappings</strong>
+              <strong>Recipients</strong>
 </td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">1</td>
-            <td class="text-left" rowspan="1" colspan="1">DP <span class="bcp14">MUST</span> verify user's CSI possession through proof-of-possession challenges through a CSIP, certificate authority or designated parties</td>
+            <td class="text-left" rowspan="1" colspan="1">R1</td>
+            <td class="text-left" rowspan="1" colspan="1">Only the recipient <span class="bcp14">MUST</span> be able to authorize verifiable mapping of the recipient's CSI to an MSP set</td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">2</td>
-            <td class="text-left" rowspan="1" colspan="1">MSP <span class="bcp14">MUST</span> confirm CSI reachability on its service</td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">3</td>
-            <td class="text-left" rowspan="1" colspan="1">Client, MSP, and DP must collaborate to generate a verifiable representation of the CSI-to-MSP mapping. This can then be shared with any DP and verifiable by clients</td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">4</td>
-            <td class="text-left" rowspan="1" colspan="1">DP <span class="bcp14">MUST NOT</span> be able to create a verifiable mapping without CSI holder and MSP involvement</td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">5</td>
-            <td class="text-left" rowspan="1" colspan="1">DP <span class="bcp14">MUST NOT</span> be able to falsely claim user completed proof-of-possession</td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">6</td>
-            <td class="text-left" rowspan="1" colspan="1">Other users <span class="bcp14">MUST</span> be able to verify CSI holder's participation in mapping creation</td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">7</td>
-            <td class="text-left" rowspan="1" colspan="1">Authenticated mappings <span class="bcp14">MUST</span> include a preference tag to enable recipients to control their preferred contact mapping</td>
+            <td class="text-left" rowspan="1" colspan="1">R2</td>
+            <td class="text-left" rowspan="1" colspan="1">A mapping <span class="bcp14">MUST</span> allow for the inclusion of tags or similar constructs to indicate the recipient's preferences for using each included MSP</td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1">
-              <strong>Discovery Protocol</strong>
+              <strong>Senders</strong>
 </td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">8</td>
-            <td class="text-left" rowspan="1" colspan="1">Discovery <span class="bcp14">MUST</span> support any globally unique CSI with backing source of truth (CISP for telephone), ownership proof, and cross-service usability</td>
+            <td class="text-left" rowspan="1" colspan="1">R3</td>
+            <td class="text-left" rowspan="1" colspan="1">Senders <span class="bcp14">MUST</span> be able to retrieve all verifiable mappings for a CSI</td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">9</td>
-            <td class="text-left" rowspan="1" colspan="1">DP <span class="bcp14">MUST</span> protect at least the querier's identity or the target CSI in requests</td>
+            <td class="text-left" rowspan="1" colspan="1">R4</td>
+            <td class="text-left" rowspan="1" colspan="1">Senders <span class="bcp14">MUST</span> be able to verify the authenticity of mappings</td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">10</td>
-            <td class="text-left" rowspan="1" colspan="1">Discovery requests <span class="bcp14">MUST</span> support federation, MSP filter, and DP list query parameters</td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">11</td>
-            <td class="text-left" rowspan="1" colspan="1">DP <span class="bcp14">MUST</span> disclose default behavior and comply with agreed-upon federation default</td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">12</td>
-            <td class="text-left" rowspan="1" colspan="1">DP <span class="bcp14">MAY</span> rate-limit non-default queries given their higher processing costs</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">13</td>
-            <td class="text-left" rowspan="1" colspan="1">DP <span class="bcp14">MAY</span> rate-limit requests sent to low-throughput DP endpoints</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">14</td>
-            <td class="text-left" rowspan="1" colspan="1">Discovery <span class="bcp14">MUST</span> accommodate zero, one, or multiple MSPs in results</td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">15</td>
-            <td class="text-left" rowspan="1" colspan="1">The protocol <span class="bcp14">MUST</span> define both verbose and compact response formats, where verbose responses include detailed mapping information and metadata, while compact responses provide a simple indication of CSI reachability on returned MSPs</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1">
-              <strong>Operational</strong>
+              <strong>Discovery Provider</strong>
 </td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">16</td>
-            <td class="text-left" rowspan="1" colspan="1">Discovery service <span class="bcp14">MUST</span> remove mappings made outdated by CSI re-assignment to a new user within reasonable time</td>
+            <td class="text-left" rowspan="1" colspan="1">R5</td>
+            <td class="text-left" rowspan="1" colspan="1">Discovery <span class="bcp14">MUST</span> support results with zero, one, or multiple mappings</td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">17</td>
-            <td class="text-left" rowspan="1" colspan="1">Older mappings generally take precedence over newer ones for the same CSI unless explicitly invalidated by the original CSI holder or superseded by a stricter proof of possession verification</td>
+            <td class="text-left" rowspan="1" colspan="1">R6</td>
+            <td class="text-left" rowspan="1" colspan="1">DPs <span class="bcp14">MUST NOT</span> be able to learn both the sender's identity and the recipient's CSI</td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">18</td>
-            <td class="text-left" rowspan="1" colspan="1">DP <span class="bcp14">MUST</span> verify if a mapping is the first mapping for a given CSI and, if so, broadcast invalidation requests to other DPs to invalidate any existing mappings for that CSI</td>
+            <td class="text-left" rowspan="1" colspan="1">R7</td>
+            <td class="text-left" rowspan="1" colspan="1">All data exchanged in the processing of a discovery request <span class="bcp14">MUST</span> be encrypted in transit</td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">19</td>
-            <td class="text-left" rowspan="1" colspan="1">Users <span class="bcp14">SHOULD</span> be provided with mechanisms to invalidate existing mappings or create a replacement mapping for their CSIs</td>
+            <td class="text-left" rowspan="1" colspan="1">R8</td>
+            <td class="text-left" rowspan="1" colspan="1">DPs <span class="bcp14">SHOULD</span> be protected against enumeration attacks</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">20</td>
-            <td class="text-left" rowspan="1" colspan="1">New CSI mappings <span class="bcp14">SHOULD</span> be discoverable within some standardized maximum time limit (e.g., 24 hours)</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-            <td class="text-left" rowspan="1" colspan="1">
-              <strong>Security</strong>
-</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">21</td>
-            <td class="text-left" rowspan="1" colspan="1">Discovery service <span class="bcp14">MUST</span> leverage contractual and technical means prevent malicious MSPs from falsely claiming CSI association</td>
+            <td class="text-left" rowspan="1" colspan="1">R9</td>
+            <td class="text-left" rowspan="1" colspan="1">DPs <span class="bcp14">MUST</span> provide a way to remove mappings</td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">22</td>
-            <td class="text-left" rowspan="1" colspan="1">Discovery service <span class="bcp14">MUST</span> incorporate anti-DDoS, anti-enumeration and anti-spam mechanisms</td>
-            <td class="text-left" rowspan="1" colspan="1">x</td>
+            <td class="text-left" rowspan="1" colspan="1">R10</td>
+            <td class="text-left" rowspan="1" colspan="1">Only the recipient or the CSIP <span class="bcp14">SHOULD</span> be able to remove mappings</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">23</td>
-            <td class="text-left" rowspan="1" colspan="1">All communication between clients, DPs, and MSPs <span class="bcp14">MUST</span> be encrypted in transit and authenticated</td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
-            <td class="text-left" rowspan="1" colspan="1"> </td>
           </tr>
         </tbody>
       </table>
 </section>
 </div>
-<div id="authenticating-mappings-requirements">
+<div id="recipient-authorization-of-mappings">
 <section id="section-6">
-      <h2 id="name-authenticating-mappings-req">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-authenticating-mappings-req" class="section-name selfRef">Authenticating Mappings Requirements</a>
+      <h2 id="name-recipient-authorization-of-">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-recipient-authorization-of-" class="section-name selfRef">Recipient Authorization of Mappings</a>
       </h2>
-<p id="section-6-1">A Discovery Provider aggregates mappings between CSIs and platforms from trusted sources. To prevent impersonation attacks where platforms or users simply claim to own a CSI, the user must solve a proof of possession challenge for the CSI before a DP can establish reachability mapping involving the CSI. Suitable approaches include SMS one-time-code or voice call verification to prove possession of phone number, email link verification for emails, OAuth sign-in for Twitter and YouTube identifiers. A potential architecture for generating credentials from proof-of-possession checks is shown in <span>[<a href="#I-D.draft-peterson-mimi-idprover" class="cite xref">I-D.draft-peterson-mimi-idprover</a>]</span>. A platform performing discovery should be able to verify that the target user established the reachability mapping. Note that once a mapping is created, it can be distributed by any DP, and it should include metadata for clients that receive it to verify its authenticity.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<div id="functional-requirements">
-<section id="section-6.1">
-        <h3 id="name-functional-requirements">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-functional-requirements" class="section-name selfRef">Functional Requirements</a>
-        </h3>
-<p id="section-6.1-1">At least, a user's client, MSP, and DP <span class="bcp14">MUST</span> participate in a consensus protocol to establish a CSI-to-MSP mapping with the following requirements:<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-6.1-2">
-<li id="section-6.1-2.1">
-            <p id="section-6.1-2.1.1">The DP <span class="bcp14">MUST</span> verify the user's possession of the CSI through some proof-of-possession challenge.<a href="#section-6.1-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-6.1-2.2">
-            <p id="section-6.1-2.2.1">The MSP <span class="bcp14">MUST</span> confirm that the CSI is reachable on its service.<a href="#section-6.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-6.1-2.3">
-            <p id="section-6.1-2.3.1">The client, MSP, and DP must collaborate to generate a verifiable representation of the CSI-to-MSP mapping (e.g., using a threshold signature). The can then be shared with any DP and verifiable by clients.<a href="#section-6.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ol>
+<p id="section-6-1"><em>R1: Only the recipient <span class="bcp14">MUST</span> be able to authorize verifiable mapping of the recipient's CSI to an MSP set.</em><a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">This requirement prevents unauthorized mapping and potential impersonation attacks. The integrity of mappings requires the recipient to be the sole party to authorize mappings of the recipient's CSI to the designated MSP set. Allowing any other user besides the recipient to authorize the creation of verifiable mappings could open the recipient to impersonation attacks, where the MSP set will include MSPs where the attacker controls the accounts.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">It is expected that the recipient has active accounts with each MSP in the set and has already linked the CSI with each of those MSP accounts. If a recipient includes MSPs that do not meet these preconditions, the recipient will not be reachable on the incorrect MSPs. While this problem can be resolved if each MSP participates in creating verifiable mappings to confirm the recipient's account exists, mapping creation will be more involved. Hence, this issue is deferred as a post-discovery problem to address.<a href="#section-6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="privacy-and-security-requirements">
-<section id="section-6.2">
-        <h3 id="name-privacy-and-security-requir">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-privacy-and-security-requir" class="section-name selfRef">Privacy and Security Requirements</a>
-        </h3>
-<ol start="1" type="1" class="normal type-1" id="section-6.2-1">
-<li id="section-6.2-1.1">
-            <p id="section-6.2-1.1.1">A DP <span class="bcp14">MUST NOT</span> be able to create a verifiable mapping without the involvement of the user holding the CSI and MSP.<a href="#section-6.2-1.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-6.2-1.2">
-            <p id="section-6.2-1.2.1">The DP <span class="bcp14">MUST NOT</span> be able to falsely claim that a user completed the proof-of-possession challenge.<a href="#section-6.2-1.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-6.2-1.3">
-            <p id="section-6.2-1.3.1">Other users <span class="bcp14">MUST</span> be able to verify that the CSI holder (and not an imposter) participated in creating the mapping.<a href="#section-6.2-1.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ol>
-</section>
-</div>
-</section>
-</div>
-<div id="preferences">
+<div id="recipient-preferences-in-mappings">
 <section id="section-7">
-      <h2 id="name-preferences">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-preferences" class="section-name selfRef">Preferences</a>
+      <h2 id="name-recipient-preferences-in-ma">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-recipient-preferences-in-ma" class="section-name selfRef">Recipient Preferences in Mappings</a>
       </h2>
-<p id="section-7-1">The discovery process involves the preferences of multiple stakeholders:<a href="#section-7-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-7-2">
-<li id="section-7-2.1">
-          <p id="section-7-2.1.1">the querier seeking reachability information,<a href="#section-7-2.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="section-7-2.2">
-          <p id="section-7-2.2.1">the user with the mapped identity, and<a href="#section-7-2.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="section-7-2.3">
-          <p id="section-7-2.3.1">DPs (and by extension, the collaborating MSPs).<a href="#section-7-2.3.1" class="pilcrow">¶</a></p>
-</li>
-      </ol>
-<p id="section-7-3">The authors suggest the following:<a href="#section-7-3" class="pilcrow">¶</a></p>
+<p id="section-7-1"><em>R2: A mapping <span class="bcp14">MUST</span> allow for the inclusion of tags or similar constructs to indicate the recipient's preferences for using each included MSP.</em><a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">This requirement allows recipients to guide how senders contact them on different MSPs. For example, a preference tag may be formulated as closed or open-ended strings (e.g., "Business", "Personal", "BasketballFriends", "WhatsApp") or a list (e.g., "Business, WhatsApp"). A recipient might want senders to utilize a specific "Business" mapping for business messaging and a different one for other types of messaging.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">This requirement prioritizes recipient preferences because senders already have flexibility in choosing their MSP (and potentially DP) when initiating requests. Further considerations regarding sender and DP preferences, as well as more complex recipient preferences, are deemed to be implementation issues. See Appendix B: Recipient's Critical User Journeys for some more examples for recipients.<a href="#section-7-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sender-retrieval-of-mappings">
+<section id="section-8">
+      <h2 id="name-sender-retrieval-of-mapping">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-sender-retrieval-of-mapping" class="section-name selfRef">Sender Retrieval of Mappings</a>
+      </h2>
+<p id="section-8-1"><em>R3: Senders <span class="bcp14">MUST</span> be able to retrieve all verifiable mappings for a CSI.</em><a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">This requirement ensures senders have complete information for reaching a recipient. When a sender queries for mappings established for a given recipient's CSI, all available verifiable mappings that exist must be returned as a response.<a href="#section-8-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="mapping-authenticity-verification">
+<section id="section-9">
+      <h2 id="name-mapping-authenticity-verifi">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-mapping-authenticity-verifi" class="section-name selfRef">Mapping Authenticity Verification</a>
+      </h2>
+<p id="section-9-1"><em>R4: Senders <span class="bcp14">MUST</span> be able to verify the authenticity of mappings.</em><a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">This requirement enables senders to trust the mapping information. On receipt of the mappings that exist for a recipient's CSI, the sender should have a means to verify the authenticity of the mappings by learning that the recipient authorized that mapping. The verification process may leverage all or parts of the mapping content and may involve network calls to an oracle to help with the verification, provided the oracle query process is consistent with Requirement 6.<a href="#section-9-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="support-for-varying-mapping-results">
+<section id="section-10">
+      <h2 id="name-support-for-varying-mapping">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-support-for-varying-mapping" class="section-name selfRef">Support for Varying Mapping Results</a>
+      </h2>
+<p id="section-10-1"><em>R5: Discovery <span class="bcp14">MUST</span> support results with zero, one, or multiple mappings.</em><a href="#section-10-1" class="pilcrow">¶</a></p>
+<p id="section-10-2">This requirement covers cases where a user has no mappings, has opted out of discovery, or uses multiple MSPs. Regardless of how the verifiable mapping structure is represented (e.g., one CSI to a set of MSPs, or one CSI to one MSP repeated for each MSP), senders must be able to determine the following from a user discovery response for a given CSI:<a href="#section-10-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7-4.1">
-          <p id="section-7-4.1.1">Implementations shouldn't dictate a one-size-fits-all approach for expressing and meeting these preferences, but should rather implement basic building blocks for each of these parties to express their preferences.<a href="#section-7-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-10-3.1">
+          <p id="section-10-3.1.1">No mapping exists, e.g., the recipient has not created any mapping.<a href="#section-10-3.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-7-4.2">
-          <p id="section-7-4.2.1">DPs should clearly communicate their preference handling practices to promote transparency and trust.<a href="#section-7-4.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-10-3.2">
+          <p id="section-10-3.2.1">One or more mappings exist, but without listed MSPs, e.g., the recipient has intentionally configured discovery to return no mappings.<a href="#section-10-3.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-7-4.3">
-          <p id="section-7-4.3.1">The discovery requirements consider detailed preferences and capabilities out of scope, leaving them to individual implementations.<a href="#section-7-4.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-10-3.3">
+          <p id="section-10-3.3.1">One mapping exists with one listed MSP.<a href="#section-10-3.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-7-4.4">
-          <p id="section-7-4.4.1">Given that the sender initiates discovery requests and already has options on which app, MSP, and DP to query, we will only provide a basic recipient preference specification as a requirement below.<a href="#section-7-4.4.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-10-3.4">
+          <p id="section-10-3.4.1">One mapping exists with multiple listed MSPs.<a href="#section-10-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-10-3.5">
+          <p id="section-10-3.5.1">Multiple mappings exist, each potentially with a different number of MSPs.<a href="#section-10-3.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<div id="basic-recipients-preference-requirement">
-<section id="section-7.1">
-        <h3 id="name-basic-recipients-preference">
-<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-basic-recipients-preference" class="section-name selfRef">Basic Recipient's Preference Requirement</a>
-        </h3>
-<p id="section-7.1-1">Requirement: Authenticated mappings <span class="bcp14">MUST</span> include a preference tag to enable recipients to control their preferred contact mapping.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.1-2">The preference tag can be either a string (e.g., "Business", "Personal", "BasketballFriends", "WhatsApp") or a list of strings (e.g., "Business, WhatsApp"). For example, a recipient might want senders from WhatsApp to utilize a specific non-default "WhatsApp" mapping.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-7.1-3">
-<li id="section-7.1-3.1">
-            <p id="section-7.1-3.1.1">The default mapping must be designated as "Default" and cannot be a list.<a href="#section-7.1-3.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.1-3.2">
-            <p id="section-7.1-3.2.1">Non-default mappings can have one or more tags to signify the recipient's intended purpose for that contact mapping.<a href="#section-7.1-3.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.1-3.3">
-            <p id="section-7.1-3.3.1">The total length of tags should be limited within the protocol.<a href="#section-7.1-3.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.1-3.4">
-            <p id="section-7.1-3.4.1">If a CSI's set of mappings lacks a default mapping or multiple mappings have the "Default" tag, the recipient can choose any of the mappings for communication.<a href="#section-7.1-3.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.1-3.5">
-            <p id="section-7.1-3.5.1">Tie-breaking should occur only once and be re-evaluated solely through explicit user action. This prevents messages from a sender from being scattered across multiple mappings for the recipient.<a href="#section-7.1-3.5.1" class="pilcrow">¶</a></p>
-</li>
-        </ol>
+<p id="section-10-4">In situations where the recipient who authorized mappings using a CSI, such as an email address, becomes unreachable (e.g., due to the user's death), implementations can rely on the MSPs included in the mapping to resolve non-reachability issues outside user discovery.<a href="#section-10-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="recipients-critical-user-journeys-implementations">
-<section id="section-7.2">
-        <h3 id="name-recipients-critical-user-jo">
-<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-recipients-critical-user-jo" class="section-name selfRef">Recipient's Critical User Journeys (implementations)</a>
-        </h3>
-<p id="section-7.2-1">Here are some Critical User Journeys (CUJs) that are the most important to discovery recipients.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
-<p id="section-7.2-2">In the CUJs below, Bob is the recipient, and Alice is the sender or user performing discovery:<a href="#section-7.2-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-7.2-3">
-<li id="section-7.2-3.1">
-            <p id="section-7.2-3.1.1">Sender mapping preferences: Bob only wants to be found by Alice and other users on WhatsApp, not his other messaging apps.<a href="#section-7.2-3.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.2-3.2">
-            <p id="section-7.2-3.2.1">Same-app preferences: Bob prefers that Alice can find him on the same messaging service that she is using. In other words, Bob does not want cross-app discovery and messaging.<a href="#section-7.2-3.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.2-3.3">
-            <p id="section-7.2-3.3.1">No-random mapping preferences: Bob does not want to go through multiple apps to find a message from Alice when discovery returns one of 10 mappings that Bob has established with discovery providers.<a href="#section-7.2-3.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.2-3.4">
-            <p id="section-7.2-3.4.1">No-duplication preferences: Bob does not want Alice's messages to be broadcasted to all or a subset of his apps based on the result of discovery.<a href="#section-7.2-3.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.2-3.5">
-            <p id="section-7.2-3.5.1">Per-sender preferences: Bob wants to control which app messages from Alice go to and do the same for other users (e.g., Carol's messages may go to a different app than Alice's).<a href="#section-7.2-3.5.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.2-3.6">
-            <p id="section-7.2-3.6.1">Closed group preferences: Bob only wants his soccer parents to discover and contact him on WhatsApp, not his Wire app. That is, a group of senders has the same mapping results based on Bob's preferences.<a href="#section-7.2-3.6.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.2-3.7">
-            <p id="section-7.2-3.7.1">Open-ended group preferences: Bob wants his business contacts to discover and reach him on Wire, not WhatsApp. That is, an open-ended list of senders (i.e., including leads) are provided with a designated mapping.<a href="#section-7.2-3.7.1" class="pilcrow">¶</a></p>
-</li>
-        </ol>
-</section>
-</div>
-</section>
-</div>
-<div id="discovery-protocol-requirements">
-<section id="section-8">
-      <h2 id="name-discovery-protocol-requirem">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-discovery-protocol-requirem" class="section-name selfRef">Discovery Protocol Requirements</a>
+<div id="protecting-sender-and-recipient-privacy">
+<section id="section-11">
+      <h2 id="name-protecting-sender-and-recip">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-protecting-sender-and-recip" class="section-name selfRef">Protecting Sender and Recipient Privacy</a>
       </h2>
-<div id="identifier-types">
-<section id="section-8.1">
-        <h3 id="name-identifier-types">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-identifier-types" class="section-name selfRef">Identifier Types</a>
-        </h3>
-<p id="section-8.1-1">Discovery <span class="bcp14">MUST</span> support any globally unique cross-service identifier with the following characteristics:<a href="#section-8.1-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-8.1-2">
-<li id="section-8.1-2.1">
-            <p id="section-8.1-2.1.1">Backing source of truth: Authoritative issuing entities exist for issuing the CSI to users (e.g., CSIP for telephone numbers).<a href="#section-8.1-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-11-1"><em>R6: DPs <span class="bcp14">MUST NOT</span> be able to learn both the sender's identity and the recipient's CSI.</em><a href="#section-11-1" class="pilcrow">¶</a></p>
+<p id="section-11-2">This requirement prevents the DP from building a complete social graph of users across MSPs. This protects user privacy by limiting the information the DP can gather about relationships between senders and recipients.<a href="#section-11-2" class="pilcrow">¶</a></p>
+<p id="section-11-3">User discovery lookups inherently create a connection point (an edge) on the social graph between the sender and the recipient. To protect the privacy of both parties, the DP must be prevented from learning this connection consisting of the sender's identity and the recipient's CSI/mapping. Specifically, the DP can learn at most one of the following:<a href="#section-11-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-11-4">
+<li id="section-11-4.1">
+          <p id="section-11-4.1.1">Identifying information about the sender, such as their source IP address, username, etc.<a href="#section-11-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-8.1-2.2">
-            <p id="section-8.1-2.2.1">Ownership proof mechanism: The user issued a CSI must be able to demonstrate or pass a proof of possession challenge from a remote prover.<a href="#section-8.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-8.1-2.3">
-            <p id="section-8.1-2.3.1">Versatility: CSIs must be deployable and usable across multiple services<a href="#section-8.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ol>
-<p id="section-8.1-3">Phone numbers and email addresses are examples of suitable and supported identifiers.<a href="#section-8.1-3" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="discovery-response-requirements">
-<section id="section-8.2">
-        <h3 id="name-discovery-response-requirem">
-<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-discovery-response-requirem" class="section-name selfRef">Discovery Response Requirements</a>
-        </h3>
-<div id="cardinalities">
-<section id="section-8.2.1">
-          <h4 id="name-cardinalities">
-<a href="#section-8.2.1" class="section-number selfRef">8.2.1. </a><a href="#name-cardinalities" class="section-name selfRef">Cardinalities</a>
-          </h4>
-<p id="section-8.2.1-1">The discovery protocol must accommodate scenarios with varying numbers of MSPs in the discovery results:<a href="#section-8.2.1-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-8.2.1-2">
-<li id="section-8.2.1-2.1">
-              <p id="section-8.2.1-2.1.1">Zero MSPs: The system should indicate a no-match condition if users and their associated Identifiers (e.g., CSIs) are not discoverable on any MSP. This enables the originating user to recognize that the CSI is not reachable via the discovery system.<a href="#section-8.2.1-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li id="section-8.2.1-2.2">
-              <p id="section-8.2.1-2.2.1">One MSP: The system should function efficiently when a CSI is associated with a single MSP.<a href="#section-8.2.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li id="section-8.2.1-2.3">
-              <p id="section-8.2.1-2.3.1">Multiple MSPs: The system should accommodate users with multiple MSPs.<a href="#section-8.2.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ol>
-</section>
-</div>
-<div id="response-format">
-<section id="section-8.2.2">
-          <h4 id="name-response-format">
-<a href="#section-8.2.2" class="section-number selfRef">8.2.2. </a><a href="#name-response-format" class="section-name selfRef">Response format</a>
-          </h4>
-<p id="section-8.2.2-1">An MSP or client app may request responses that are verbose or compact. A verbose response may include all unique lists of mappings discovered with metadata for the client to verify each mapping, and metadata about the list or count of DPs where that mapping was found. A compact response may be as simple as a bit string with each set bit representing that the CSI is found in the MSP assigned to that bit position. The protocol <span class="bcp14">MUST</span> define specific formats for both response types.<a href="#section-8.2.2-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
-<div id="discovery-request-requirement">
-<section id="section-8.3">
-        <h3 id="name-discovery-request-requireme">
-<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-discovery-request-requireme" class="section-name selfRef">Discovery Request Requirement</a>
-        </h3>
-<div id="requests">
-<section id="section-8.3.1">
-          <h4 id="name-requests">
-<a href="#section-8.3.1" class="section-number selfRef">8.3.1. </a><a href="#name-requests" class="section-name selfRef">Requests</a>
-          </h4>
-<p id="section-8.3.1-1">Discovery requests must include the CSI and may include additional query parameters to guide the search process. The query parameters below <span class="bcp14">MUST</span> be supported.<a href="#section-8.3.1-1" class="pilcrow">¶</a></p>
-<div id="federation">
-<section id="section-8.3.1.1">
-            <h5 id="name-federation">
-<a href="#section-8.3.1.1" class="section-number selfRef">8.3.1.1. </a><a href="#name-federation" class="section-name selfRef">Federation</a>
-            </h5>
-<p id="section-8.3.1.1-1">Indicate if the DP should answer queries using its own database or federate the request to other DPs and aggregate their answers in a fair and transparent manner. In a federated model, a DP that chooses not to federate may be limited in the queries it can answer. Certainly, a DP can incorporate mappings that either reference another DP's mapping or materialize those mappings into its own local database.<a href="#section-8.3.1.1-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="msp-filter">
-<section id="section-8.3.1.2">
-            <h5 id="name-msp-filter">
-<a href="#section-8.3.1.2" class="section-number selfRef">8.3.1.2. </a><a href="#name-msp-filter" class="section-name selfRef">MSP filter</a>
-            </h5>
-<p id="section-8.3.1.2-1">Useful for scoping the response of interest to one or more MSPs (e.g., query for CSI mapping to WhatsApp only).<a href="#section-8.3.1.2-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="dp-list">
-<section id="section-8.3.1.3">
-            <h5 id="name-dp-list">
-<a href="#section-8.3.1.3" class="section-number selfRef">8.3.1.3. </a><a href="#name-dp-list" class="section-name selfRef">DP list</a>
-            </h5>
-<p id="section-8.3.1.3-1">A list of DPs may accompany each query to guide a DP on query federation decisions. These sub-options for DP list must be supported:<a href="#section-8.3.1.3-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-8.3.1.3-2.1">
-                <p id="section-8.3.1.3-2.1.1">DP-preferred federation: signals for the DP to forward the query to its preferred subset of DPs.<a href="#section-8.3.1.3-2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-8.3.1.3-2.2">
-                <p id="section-8.3.1.3-2.2.1">Client-selected federation: instructs the DP to forward the query to a specific list of DPs provided by the client.<a href="#section-8.3.1.3-2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-8.3.1.3-2.3">
-                <p id="section-8.3.1.3-2.3.1">All DPs: mandates the DP to forward the query to all DPs within the ecosystem, utilizing a publicly accessible registry (described below).<a href="#section-8.3.1.3-2.3.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</section>
-</div>
-</section>
-</div>
-<div id="default-behavior-disclosure">
-<section id="section-8.3.2">
-          <h4 id="name-default-behavior-disclosure">
-<a href="#section-8.3.2" class="section-number selfRef">8.3.2. </a><a href="#name-default-behavior-disclosure" class="section-name selfRef">Default behavior disclosure</a>
-          </h4>
-<p id="section-8.3.2-1">A DP must externally disclose its default behavior which should be consistent with local regulatory requirements (e.g., do not federate by default for performance, privacy or regulatory reasons). For example, in the absence of a context parameter, the DP disclosed it will utilize its local database to fulfill requests.<a href="#section-8.3.2-1" class="pilcrow">¶</a></p>
-<p id="section-8.3.2-2">A DP must follow some preferred default behavior that is agreed at the federation level.<a href="#section-8.3.2-2" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="client-rate-limit">
-<section id="section-8.3.3">
-          <h4 id="name-client-rate-limit">
-<a href="#section-8.3.3" class="section-number selfRef">8.3.3. </a><a href="#name-client-rate-limit" class="section-name selfRef">Client rate limit</a>
-          </h4>
-<p id="section-8.3.3-1">Again, forking discovery requests consume ecosystem resources, and could facilitate attacks. Hence a DP may rate-limit non-default queries. Specifically, a client may be limited to a few queries daily when federated to the entire ecosystem DPs.<a href="#section-8.3.3-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="server-rate-limit">
-<section id="section-8.3.4">
-          <h4 id="name-server-rate-limit">
-<a href="#section-8.3.4" class="section-number selfRef">8.3.4. </a><a href="#name-server-rate-limit" class="section-name selfRef">Server rate limit</a>
-          </h4>
-<p id="section-8.3.4-1">DPs may optionally rate-limit requests directed at DP endpoints with low query processing throughput for discovery responsiveness.<a href="#section-8.3.4-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="rate-limiting-context">
-<section id="section-8.3.5">
-          <h4 id="name-rate-limiting-context">
-<a href="#section-8.3.5" class="section-number selfRef">8.3.5. </a><a href="#name-rate-limiting-context" class="section-name selfRef">Rate-limiting context</a>
-          </h4>
-<p id="section-8.3.5-1">A DP must provide sufficient context to the federation of DPs on a fork tree to assist them in rate-limiting requests from specific clients in a privacy-friendly manner.<a href="#section-8.3.5-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
-<div id="privacy-requirements">
-<section id="section-8.4">
-        <h3 id="name-privacy-requirements">
-<a href="#section-8.4" class="section-number selfRef">8.4. </a><a href="#name-privacy-requirements" class="section-name selfRef">Privacy Requirements</a>
-        </h3>
-<div id="requirement">
-<section id="section-8.4.1">
-          <h4 id="name-requirement">
-<a href="#section-8.4.1" class="section-number selfRef">8.4.1. </a><a href="#name-requirement" class="section-name selfRef">Requirement</a>
-          </h4>
-<p id="section-8.4.1-1">A DP must protect at least one end of the social graph during a request. In other words, the DP must protect either the querier's identity or the CSI of interest in requests.<a href="#section-8.4.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.4.1-2">Possible implementation approaches when Alice is discovering Bob's reachability:<a href="#section-8.4.1-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-8.4.1-3">
-<li id="section-8.4.1-3.1">
-              <p id="section-8.4.1-3.1.1">Querier identity protection: IP blinding (e.g., Private Relay) can help to conceal Alice's identity or IP address so the DP may learn the query target only.<a href="#section-8.4.1-3.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li id="section-8.4.1-3.2">
-              <p id="section-8.4.1-3.2.1">Query content protection: Techniques like Private Information Retrieval (PIR) or Private Set Membership (PSM) can conceal the target CSI, so the DP may learn the querier only.<a href="#section-8.4.1-3.2.1" class="pilcrow">¶</a></p>
-</li>
-          </ol>
-<p id="section-8.4.1-4">The messaging social graph of a user shows all the other users that the user has communicated with over time.The discovery social graph of a user shows all the users for whom discovery has been attempted. The discovery social graph is significantly larger than the messaging social graph, even though there may be some overlap between the two. To clarify, a user's address book defines their potential social network. MIMI discovery, when applied comprehensively using the address book, reveals that network on various services. In contrast, the messaging social graph only includes contacts actively messaged within a specific period, which is inherently a subset of the user's wider contact network. Since discovery can query for users the initiator hasn't yet messaged, the discovery social graph is naturally larger.<a href="#section-8.4.1-4" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
-</section>
-</div>
-<div id="operational-requirements">
-<section id="section-9">
-      <h2 id="name-operational-requirements">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-operational-requirements" class="section-name selfRef">Operational Requirements</a>
-      </h2>
-<p id="section-9-1">The discovery service must support a decentralized architecture with multiple DPs, enabling federation based on user preferences, geopolitical boundaries, and DP-specific policies.<a href="#section-9-1" class="pilcrow">¶</a></p>
-<p id="section-9-2">Some additional considerations:<a href="#section-9-2" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-9-3">
-<li id="section-9-3.1">
-          <p id="section-9-3.1.1">Federation mechanisms: Protocols or standards for DPs to communicate and exchange mapping data must be defined. This includes how requests are routed and how DPs locate potentially relevant mappings stored elsewhere.<a href="#section-9-3.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li id="section-9-3.2">
-          <p id="section-9-3.2.1">Data sovereignty: Regulations such as GDPR have a direct impact on where user data can reside. Solutions must be designed to respect data locality and follow jurisdictional laws.<a href="#section-9-3.2.1" class="pilcrow">¶</a></p>
+        <li id="section-11-4.2">
+          <p id="section-11-4.2.1">The recipient's CSI and any associated response mappings.<a href="#section-11-4.2.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
-<div id="registry">
-<section id="section-9.1">
-        <h3 id="name-registry">
-<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-registry" class="section-name selfRef">Registry</a>
-        </h3>
-<p id="section-9.1-1">It is likely that reachability mappings on some services will not be shared publicly for privacy reasons. Thus DPs may federate: for example, a discovery client may send a request to one DP, which will then need to consult a second DP in order to complete the request. Some sort of policies will need to govern the relationships between DPs and the terms under which they federate. Such a policy is outside MIMI's purview.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
-<p id="section-9.1-2">Metadata and service configurations about federation membership of interoperable DPs may be hosted on a registry managed by the federation. Each DP's record may include a unique identifier, discovery endpoints, and other configuration metadata.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="csi-release-timeliness">
-<section id="section-9.2">
-        <h3 id="name-csi-release-timeliness">
-<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-csi-release-timeliness" class="section-name selfRef">CSI Release Timeliness</a>
-        </h3>
-<p id="section-9.2-1">The discovery service must strive to remove outdated mappings (resulting from users ending service with a CSIP) within a reasonable timeframe, but this timeframe must acknowledge the limitations of existing legacy systems and the potential for identifier reuse. For example, in scenarios where a number is disconnected and later reassigned, the new user must designate the very first mapping as such. This triggers the DP to broadcast invalidation requests to other DPs, effectively clearing any lingering mappings associated with the reassigned number.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
-<div id="mapping-prioritization-requirement">
-<section id="section-9.2.1">
-          <h4 id="name-mapping-prioritization-requ">
-<a href="#section-9.2.1" class="section-number selfRef">9.2.1. </a><a href="#name-mapping-prioritization-requ" class="section-name selfRef">Mapping Prioritization Requirement</a>
-          </h4>
-<p id="section-9.2.1-1">Whenever a new mapping is attempted for an existing CSI, the one established earlier should generally take precedence. This precedence <span class="bcp14">SHOULD</span> be overridden ONLY in the following cases:<a href="#section-9.2.1-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-9.2.1-2">
-<li id="section-9.2.1-2.1">
-              <p id="section-9.2.1-2.1.1">The original CSI holder explicitly signals the mapping is no longer valid.<a href="#section-9.2.1-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li id="section-9.2.1-2.2">
-              <p id="section-9.2.1-2.2.1">A new user of the CSI establishes a mapping and successfully completes a stricter proof of possession verification process.<a href="#section-9.2.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          </ol>
-</section>
-</div>
-<div id="conflict-resolution-protocol-requirement">
-<section id="section-9.2.2">
-          <h4 id="name-conflict-resolution-protoco">
-<a href="#section-9.2.2" class="section-number selfRef">9.2.2. </a><a href="#name-conflict-resolution-protoco" class="section-name selfRef">Conflict Resolution Protocol Requirement</a>
-          </h4>
-<ol start="1" type="1" class="normal type-1" id="section-9.2.2-1">
-<li id="section-9.2.2-1.1">
-              <p id="section-9.2.2-1.1.1">DPs <span class="bcp14">MUST</span> implement a conflict resolution protocol when a new mapping creation attempt is made for a CSI that already has mappings within the DP's service.<a href="#section-9.2.2-1.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li id="section-9.2.2-1.2">
-              <p id="section-9.2.2-1.2.1">This protocol <span class="bcp14">SHOULD</span> include a privacy-preserving notification to the holder of any existing mappings (without revealing the new user's identity).<a href="#section-9.2.2-1.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li id="section-9.2.2-1.3">
-              <p id="section-9.2.2-1.3.1">If the conflict cannot be automatically resolved, the DP <span class="bcp14">MAY</span> escalate to a manual review process that involves additional verification steps for the new user.<a href="#section-9.2.2-1.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ol>
-</section>
-</div>
-<div id="invalidate-capability-requirement">
-<section id="section-9.2.3">
-          <h4 id="name-invalidate-capability-requi">
-<a href="#section-9.2.3" class="section-number selfRef">9.2.3. </a><a href="#name-invalidate-capability-requi" class="section-name selfRef">Invalidate Capability Requirement</a>
-          </h4>
-<ol start="1" type="1" class="normal type-1" id="section-9.2.3-1">
-<li id="section-9.2.3-1.1">
-              <p id="section-9.2.3-1.1.1">Mechanisms <span class="bcp14">SHOULD</span> be provided to enable users to signal that a CSI they previously used is no longer under their control. This could include:<a href="#section-9.2.3-1.1.1" class="pilcrow">¶</a></p>
+<p id="section-11-5">While the DP might be able to infer this edge or connection later if both users communicate through the same MSP, this requirement focuses on preventing the DP from directly learning this during discovery. To understand the importance of this, it's helpful to distinguish between two types of social graphs:<a href="#section-11-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-9.2.3-1.1.2.1">
-                  <p id="section-9.2.3-1.1.2.1.1">Collaborations with CSIP to receive re-assignment notifications.<a href="#section-9.2.3-1.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-11-6.1">
+          <p id="section-11-6.1.1">Messaging social graph: Reflects actual communication between users.<a href="#section-11-6.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-9.2.3-1.1.2.2">
-                  <p id="section-9.2.3-1.1.2.2.1">User-initiated invalidation requests.<a href="#section-9.2.3-1.1.2.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-11-6.2">
+          <p id="section-11-6.2.1">Discovery social graph: Encompasses all attempted user discovery lookups, which can be significantly larger than the messaging social graph, as it includes searches for users the sender may not ultimately contact.<a href="#section-11-6.2.1" class="pilcrow">¶</a></p>
 </li>
-              </ul>
-</li>
-            <li id="section-9.2.3-1.2">
-              <p id="section-9.2.3-1.2.1">Invalidate signals <span class="bcp14">SHOULD</span> trigger updates to discovery mappings to minimize conflicts.<a href="#section-9.2.3-1.2.1" class="pilcrow">¶</a></p>
-</li>
-          </ol>
+      </ul>
+<p id="section-11-7">Protecting user privacy during discovery is crucial because, without it, a sender's entire discovery social graph could be revealed during bulk discovery that requires the lookup of all contacts on the sender's address book, which exposes a much broader range of potential connections than their actual messaging activity. Appendix C Protecting Sender-Recipient Social Graph Edge has some recommendations for implementation.<a href="#section-11-7" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="in-transit-encryption">
+<section id="section-12">
+      <h2 id="name-in-transit-encryption">
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-in-transit-encryption" class="section-name selfRef">In-Transit Encryption</a>
+      </h2>
+<p id="section-12-1"><em>R7: All data exchanged in the processing of a discovery request <span class="bcp14">MUST</span> be encrypted in transit.</em><a href="#section-12-1" class="pilcrow">¶</a></p>
+<p id="section-12-2">This requirement ensures the confidentiality of discovery requests and responses.<a href="#section-12-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="csi-claim-timeliness">
-<section id="section-9.3">
-        <h3 id="name-csi-claim-timeliness">
-<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-csi-claim-timeliness" class="section-name selfRef">CSI Claim Timeliness</a>
-        </h3>
-<p id="section-9.3-1">Upon a user obtaining service for a new CSI (e.g., phone number or email address) from a CSIP, the discovery service must enable immediate discoverability when the user associates the CSI with a MSP. The MSP <span class="bcp14">MUST</span> implement a mechanism to validate the user's control over the claimed CSI (as usual).<a href="#section-9.3-1" class="pilcrow">¶</a></p>
+<div id="protection-against-enumeration-attacks">
+<section id="section-13">
+      <h2 id="name-protection-against-enumerat">
+<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-protection-against-enumerat" class="section-name selfRef">Protection Against Enumeration Attacks</a>
+      </h2>
+<p id="section-13-1"><em>R8: DPs <span class="bcp14">SHOULD</span> be protected against enumeration attacks.</em><a href="#section-13-1" class="pilcrow">¶</a></p>
+<p id="section-13-2">This requirement ensures there is a security defense against attacks aimed at scraping mapping data. Discovery providers should implement mechanisms to defend against large-scale scraping of mappings from their database, which can be used to compile spam targeting lists.<a href="#section-13-2" class="pilcrow">¶</a></p>
+<p id="section-13-3">One potential implementation approach is to utilize time-bound blind signatures. This method limits the number of user discovery lookups a sender can perform within a given timeframe. Each lookup request must include a unique, unblinded signature that cannot be linked to the sender's identity. To facilitate rate-limiting across different server entities (e.g., DPs and MSPs), this unique signature should be passed along during communication.<a href="#section-13-3" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="mapping-removal">
+<section id="section-14">
+      <h2 id="name-mapping-removal">
+<a href="#section-14" class="section-number selfRef">14. </a><a href="#name-mapping-removal" class="section-name selfRef">Mapping Removal</a>
+      </h2>
+<p id="section-14-1"><em>R9: DPs <span class="bcp14">MUST</span> provide a way to remove mappings.</em><a href="#section-14-1" class="pilcrow">¶</a></p>
+<p id="section-14-2"><em>R10: Only the recipient or the CSIP <span class="bcp14">SHOULD</span> be able to remove mappings</em><a href="#section-14-2" class="pilcrow">¶</a></p>
+<p id="section-14-3">These requirements allow recipients to manage their discoverability and remove outdated mappings. Authorization to remove verifiable mappings for a given CSI should be limited to only the recipient who authorized the mapping or the CSIP managing that CSI (for cases where a CSI is no longer assigned to any recipient).<a href="#section-14-3" class="pilcrow">¶</a></p>
+<p id="section-14-4">Recipients can change their minds and decide to make a prior mapping not discoverable; they may want to update mappings or start all over. Thus, a DP should provide a means to remove verifiable mappings. Once removed, a mapping should no longer be returned for senders' requests.<a href="#section-14-4" class="pilcrow">¶</a></p>
+<p id="section-14-5">A recipient that authorized the creation of a verifiable mapping should also be able to authorize its removal from the backend of DPs. Similarly, a CSIP may request the removal of mappings for a CSI that has become unassigned.<a href="#section-14-5" class="pilcrow">¶</a></p>
+<p id="section-14-6">A possible implementation approach is for verifiable mapping authorization to include a bit that the recipient can use to indicate if a mapping is new. When that bit is set, a DP may proactively de-list any existing mapping for that CSI (after asking the user to re-confirm). Note that the CSIP does not need to be aware of or be involved with the de-listing of mappings with such an approach. There are other approaches to ensure mappings are fresh and are not impacted when the same CSI is transferred between two recipients.<a href="#section-14-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-10">
+<section id="section-15">
       <h2 id="name-security-considerations">
-<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-15" class="section-number selfRef">15. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<div id="blackhole-prevention">
-<section id="section-10.1">
-        <h3 id="name-blackhole-prevention">
-<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-blackhole-prevention" class="section-name selfRef">Blackhole Prevention</a>
-        </h3>
-<p id="section-10.1-1">The discovery service must be designed to prevent malicious MSPs from falsely claiming association with a CSI to prevent messages intended for the legitimate user from being delivered. This includes:<a href="#section-10.1-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-10.1-2.1">
-            <p id="section-10.1-2.1.1">Preventing message interception: Malicious MSPs <span class="bcp14">MUST NOT</span> be able to redirect messages by associating themselves with a CSI they do not control.<a href="#section-10.1-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-10.1-2.2">
-            <p id="section-10.1-2.2.1">Ensuring accurate discoverability: Malicious MSPs <span class="bcp14">MUST NOT</span> be able to make a non-user appear discoverable, leading to misdirected messages or false impressions of service adoption.<a href="#section-10.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-</section>
-</div>
-<div id="ddos-enumeration-and-spam-prevention-and-mitigation">
-<section id="section-10.2">
-        <h3 id="name-ddos-enumeration-and-spam-p">
-<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-ddos-enumeration-and-spam-p" class="section-name selfRef">DDoS, Enumeration and Spam Prevention and Mitigation</a>
-        </h3>
-<p id="section-10.2-1">The discovery service <span class="bcp14">MUST</span> put in place robust mechanisms to prevent and mitigate DDoS, large-scale CSI scraping and spamming by malicious providers (MSPs, DPs). This requirement includes:<a href="#section-10.2-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-10.2-2.1">
-            <p id="section-10.2-2.1.1">Anti-DDoS, anti-enumeration and anti-spam defenses: The system design must effectively thwart attempts to DDoS attack, enumerate CSIs (especially phone numbers), and prevent the creation of spam target lists. Techniques may include restrictions on bulk queries, obfuscation, or differential access levels based on MSP reputation and relationships.<a href="#section-10.2-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-10.2-2.2">
-            <p id="section-10.2-2.2.1">Flexible rate limiting: DPs must be able to enforce rate limits on discovery requests, with mechanisms to determine appropriate limits based on individual MSP behavior, business relationships, and potential risks.<a href="#section-10.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-</section>
-</div>
-<div id="encryption-and-authentication">
-<section id="section-10.3">
-        <h3 id="name-encryption-and-authenticati">
-<a href="#section-10.3" class="section-number selfRef">10.3. </a><a href="#name-encryption-and-authenticati" class="section-name selfRef">Encryption and Authentication</a>
-        </h3>
-<p id="section-10.3-1">All information exchanged between clients, DPs, and MSPs <span class="bcp14">MUST</span> be encrypted in transit and authenticated.<a href="#section-10.3-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="notes">
-<section id="section-10.4">
-        <h3 id="name-notes">
-<a href="#section-10.4" class="section-number selfRef">10.4. </a><a href="#name-notes" class="section-name selfRef">Notes</a>
-      </h3>
-</section>
-</div>
+<p id="section-15-1">Security considerations are addressed throughout the document, particularly in requirements R1, R4, R6, R7, and R8. These requirements focus on preventing unauthorized mapping, ensuring the authenticity of mappings, protecting user privacy, and securing data in transit and at rest.<a href="#section-15-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-11">
+<section id="section-16">
       <h2 id="name-iana-considerations">
-<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-16" class="section-number selfRef">16. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-11-1">This document has no IANA actions.<a href="#section-11-1" class="pilcrow">¶</a></p>
+<p id="section-16-1">This document has no IANA actions.<a href="#section-16-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-normative-references">
-<section id="section-12">
+<section id="section-17">
       <h2 id="name-normative-references">
-<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-17" class="section-number selfRef">17. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
       </h2>
 <dl class="references">
-<dt id="I-D.draft-peterson-mimi-idprover">[I-D.draft-peterson-mimi-idprover]</dt>
-      <dd>
-<span class="refAuthor">Peterson, J.</span>, <span class="refTitle">"An Identitifier Proof-of-Possession Mechanism"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-peterson-mimi-idprover-00</span>, <time datetime="2024-03-04" class="refDate">4 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-peterson-mimi-idprover-00">https://datatracker.ietf.org/doc/html/draft-peterson-mimi-idprover-00</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="I-D.petithuguenin-vipr-pvp">[I-D.petithuguenin-vipr-pvp]</dt>
       <dd>
 <span class="refAuthor">Petit-Huguenin, M.</span>, <span class="refAuthor">Rosenberg, J.</span>, and <span class="refAuthor">C. F. Jennings</span>, <span class="refTitle">"The Public Switched Telephone Network (PSTN) Validation Protocol (PVP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-petithuguenin-vipr-pvp-04</span>, <time datetime="2012-03-12" class="refDate">12 March 2012</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-petithuguenin-vipr-pvp-04">https://datatracker.ietf.org/doc/html/draft-petithuguenin-vipr-pvp-04</a>&gt;</span>. </dd>
@@ -2301,16 +1678,233 @@ appear in all capitals, as shown here.<a href="#section-1-1" class="pilcrow">¶<
 </dl>
 </section>
 </div>
-<div id="acknowledgments">
+<div id="architectural-models">
 <section id="appendix-A">
+      <h2 id="name-architectural-models">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-architectural-models" class="section-name selfRef">Architectural Models</a>
+      </h2>
+<p id="appendix-A-1">This appendix explores various architectural models for MIMI DP to provide an overview and address practical implementation considerations. The working group observed these requirements are similar among these models and opted to maintain architectural neutrality for the discovery protocol. However, we will outline requirements for the roles of DPs, how they interact with each other, MSPs in a federated model, and how DPs accommodate queries from both MSPs and users.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<div id="centralized-dp-monolithic-service">
+<section id="appendix-A.1">
+        <h3 id="name-centralized-dp-monolithic-s">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-centralized-dp-monolithic-s" class="section-name selfRef">Centralized DP (Monolithic Service)</a>
+        </h3>
+<p id="appendix-A.1-1">A globally accessible, authoritative database (potentially sharded/replicated) stores all authenticated CSI mappings. This monolithic service, implemented across synchronized global nodes, handles all CSI queries from messaging platforms and acts as the single source of truth for mapping data, even if certain mappings may be restricted in specific regions due to geopolitical considerations.<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
+<div id="advantages">
+<section id="appendix-A.1.1">
+          <h4 id="name-advantages">
+<a href="#appendix-A.1.1" class="section-number selfRef">A.1.1. </a><a href="#name-advantages" class="section-name selfRef">Advantages</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="appendix-A.1.1-1.1">
+              <p id="appendix-A.1.1-1.1.1">Standardization and uniform control over mapping creation, updates, and data formats.<a href="#appendix-A.1.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.1.1-1.2">
+              <p id="appendix-A.1.1-1.2.1">Promotes fair and unbiased CSI mapping discovery.<a href="#appendix-A.1.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.1.1-1.3">
+              <p id="appendix-A.1.1-1.3.1">Single source of truth for mapping simplifies data management and ensures consistency.<a href="#appendix-A.1.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.1.1-1.4">
+              <p id="appendix-A.1.1-1.4.1">Sharding/replication can address geographical distribution and performance needs.<a href="#appendix-A.1.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="drawbacks">
+<section id="appendix-A.1.2">
+          <h4 id="name-drawbacks">
+<a href="#appendix-A.1.2" class="section-number selfRef">A.1.2. </a><a href="#name-drawbacks" class="section-name selfRef">Drawbacks</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="appendix-A.1.2-1.1">
+              <p id="appendix-A.1.2-1.1.1">Centralization of sensitive user data raises privacy risks.<a href="#appendix-A.1.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.1.2-1.2">
+              <p id="appendix-A.1.2-1.2.1">May conflict with data localization regulations.<a href="#appendix-A.1.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.1.2-1.3">
+              <p id="appendix-A.1.2-1.3.1">Single point of failure vulnerability from outages affecting the entire system.<a href="#appendix-A.1.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.1.2-1.4">
+              <p id="appendix-A.1.2-1.4.1">Potential difficulty with immediate global updates for rapidly changing mappings.<a href="#appendix-A.1.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="hierarchical-dps-discovery-resolvers">
+<section id="appendix-A.2">
+        <h3 id="name-hierarchical-dps-discovery-">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-hierarchical-dps-discovery-" class="section-name selfRef">Hierarchical DPs (Discovery Resolvers)</a>
+        </h3>
+<p id="appendix-A.2-1">A global root Discovery Provider (DP) directs mapping requests to authoritative DPs based on CSI structure (e.g., country codes for E.164 phone numbers) or sharding mechanisms. The root DP, similar to hierarchical DNS, acts as a directory service, holding pointers to authoritative DPs rather than mappings themselves. Alternatives to hierarchical resolution, like the LoST protocol <span>[<a href="#RFC5222" class="cite xref">RFC5222</a>]</span>, or distributed hash tables (DHTs), can achieve similar outcomes.<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
+<div id="advantages-1">
+<section id="appendix-A.2.1">
+          <h4 id="name-advantages-2">
+<a href="#appendix-A.2.1" class="section-number selfRef">A.2.1. </a><a href="#name-advantages-2" class="section-name selfRef">Advantages</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.1-1.1">
+              <p id="appendix-A.2.1-1.1.1">Scalability from distributed load and mapping management across multiple DPs.<a href="#appendix-A.2.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.2.1-1.2">
+              <p id="appendix-A.2.1-1.2.1">Flexibility that allows different DPs to specialize in specific CSI ranges for regions.<a href="#appendix-A.2.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.2.1-1.3">
+              <p id="appendix-A.2.1-1.3.1">Better alignment with data localization requirements.<a href="#appendix-A.2.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="drawbacks-1">
+<section id="appendix-A.2.2">
+          <h4 id="name-drawbacks-2">
+<a href="#appendix-A.2.2" class="section-number selfRef">A.2.2. </a><a href="#name-drawbacks-2" class="section-name selfRef">Drawbacks</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.2-1.1">
+              <p id="appendix-A.2.2-1.1.1">Requires coordination and maintenance of hierarchy.<a href="#appendix-A.2.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.2.2-1.2">
+              <p id="appendix-A.2.2-1.2.1">Root DP failure could disrupt the entire system.<a href="#appendix-A.2.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.2.2-1.3">
+              <p id="appendix-A.2.2-1.3.1">Potential delays due to additional hops in the discovery process.<a href="#appendix-A.2.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="federated-dps-distributed-peer-service">
+<section id="appendix-A.3">
+        <h3 id="name-federated-dps-distributed-p">
+<a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-federated-dps-distributed-p" class="section-name selfRef">Federated DPs (Distributed Peer Service)</a>
+        </h3>
+<p id="appendix-A.3-1">In a federated model, multiple independent DPs collaborate to provide CSI mapping discovery. Each DP holds a subset of mappings and pointers to other DPs, with no central authority dictating mapping locations. Discovering all mappings for a CSI may involve querying multiple DPs. DPs can exchange CSI information or recursively query each other. The specifics of DP federation are determined by business agreements, not technical requirements. A variation of this model involves messaging platforms acting as their own DPs, managing mappings for their users.<a href="#appendix-A.3-1" class="pilcrow">¶</a></p>
+<div id="advantages-2">
+<section id="appendix-A.3.1">
+          <h4 id="name-advantages-3">
+<a href="#appendix-A.3.1" class="section-number selfRef">A.3.1. </a><a href="#name-advantages-3" class="section-name selfRef">Advantages</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="appendix-A.3.1-1.1">
+              <p id="appendix-A.3.1-1.1.1">Decentralization ensures there is no single point of control or failure. The system can continue functioning even if some DPs are unavailable.<a href="#appendix-A.3.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.3.1-1.2">
+              <p id="appendix-A.3.1-1.2.1">Mappings can be distributed according to local regulations.<a href="#appendix-A.3.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="drawbacks-2">
+<section id="appendix-A.3.2">
+          <h4 id="name-drawbacks-3">
+<a href="#appendix-A.3.2" class="section-number selfRef">A.3.2. </a><a href="#name-drawbacks-3" class="section-name selfRef">Drawbacks</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="appendix-A.3.2-1.1">
+              <p id="appendix-A.3.2-1.1.1">Discovery process may involve querying multiple DPs, increasing network load.<a href="#appendix-A.3.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.3.2-1.2">
+              <p id="appendix-A.3.2-1.2.1">Potential for bias as DPs may prioritize their own mappings, leading to uneven results.<a href="#appendix-A.3.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.3.2-1.3">
+              <p id="appendix-A.3.2-1.3.1">Requires robust mechanisms to prevent CSI impersonation and ensure trust between DPs.<a href="#appendix-A.3.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="appendix-A.3.2-1.4">
+              <p id="appendix-A.3.2-1.4.1">Pairwise relationships in a federated DP model could create a barrier to entry for smaller MSP/DPs, similar to the trust requirements in the DKIM <span>[<a href="#RFC6376" class="cite xref">RFC6376</a>]</span> and DMARC <span>[<a href="#RFC8616" class="cite xref">RFC8616</a>]</span> ecosystems.<a href="#appendix-A.3.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="additional-considerations-on-architectural-models">
+<section id="appendix-A.4">
+        <h3 id="name-additional-considerations-o">
+<a href="#appendix-A.4" class="section-number selfRef">A.4. </a><a href="#name-additional-considerations-o" class="section-name selfRef">Additional Considerations on Architectural Models</a>
+        </h3>
+<div id="telephone-number-csis">
+<section id="appendix-A.4.1">
+          <h4 id="name-telephone-number-csis">
+<a href="#appendix-A.4.1" class="section-number selfRef">A.4.1. </a><a href="#name-telephone-number-csis" class="section-name selfRef">Telephone Number CSIs</a>
+          </h4>
+<p id="appendix-A.4.1-1">Telephone number portability is complex due to its reliance on real-time queries to proprietary and legacy systems. Overall, the authenticated mappings proposed for MIMI may necessitate additional platform measures to assess mapping freshness and ensure up-to-date reachability responses.<a href="#appendix-A.4.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="bias-mitigation">
+<section id="appendix-A.4.2">
+          <h4 id="name-bias-mitigation">
+<a href="#appendix-A.4.2" class="section-number selfRef">A.4.2. </a><a href="#name-bias-mitigation" class="section-name selfRef">Bias Mitigation</a>
+          </h4>
+<p id="appendix-A.4.2-1">Bias occurs when a DP prioritizes mappings to its affiliated MSP without consideration of what is best for end users. Mitigating bias is essential to ensure fair and equitable discovery of authenticated mappings across different services. The working group has decided to defer such mitigation to policies and regulations, excluding it from the discovery protocol.<a href="#appendix-A.4.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="recipients-critical-user-journeys">
+<section id="appendix-B">
+      <h2 id="name-recipients-critical-user-jo">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-recipients-critical-user-jo" class="section-name selfRef">Recipient's Critical User Journeys</a>
+      </h2>
+<p id="appendix-B-1">Here are some Critical User Journeys (CUJs) that are the most important to discovery recipients.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">In the CUJs below, Bob is the recipient that creates verifiable mappings, and Alice is the sender or user performing discovery:<a href="#appendix-B-2" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="appendix-B-3">
+<li id="appendix-B-3.1">
+          <p id="appendix-B-3.1.1">Sender mapping preferences: Bob only wants to be found by Alice and other users on WhatsApp, not his other messaging apps.<a href="#appendix-B-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-B-3.2">
+          <p id="appendix-B-3.2.1">Same-app preferences: Bob prefers that Alice can find him on the same messaging service that she is using. In other words, Bob does not want cross-app discovery and messaging.<a href="#appendix-B-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-B-3.3">
+          <p id="appendix-B-3.3.1">No-random mapping preferences: Bob does not want to go through multiple apps to find a message from Alice when discovery returns one of 10 mappings that Bob has established with discovery providers.<a href="#appendix-B-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-B-3.4">
+          <p id="appendix-B-3.4.1">No-duplication preferences: Bob does not want Alice's messages to be broadcasted to all or a subset of his apps based on the result of discovery.<a href="#appendix-B-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-B-3.5">
+          <p id="appendix-B-3.5.1">Per-sender preferences: Bob wants to control which app messages from Alice go to and do the same for other users (e.g., Carol's messages may go to a different app than Alice's).<a href="#appendix-B-3.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-B-3.6">
+          <p id="appendix-B-3.6.1">Closed group preferences: Bob only wants his soccer parents to discover and contact him on WhatsApp, not his Wire app. That is, a group of senders has the same mapping results based on Bob's preferences.<a href="#appendix-B-3.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-B-3.7">
+          <p id="appendix-B-3.7.1">Open-ended group preferences: Bob wants his business contacts to discover and reach him on Wire, not WhatsApp. That is, an open-ended list of senders (i.e., including leads) are provided with a designated mapping.<a href="#appendix-B-3.7.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+</section>
+</div>
+<div id="protecting-sender-recipient-social-graph-edge">
+<section id="appendix-C">
+      <h2 id="name-protecting-sender-recipient">
+<a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-protecting-sender-recipient" class="section-name selfRef">Protecting Sender-Recipient Social Graph Edge</a>
+      </h2>
+<p id="appendix-C-1">To protect user privacy, implementations should consider:<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="appendix-C-2">
+<li id="appendix-C-2.1">
+          <p id="appendix-C-2.1.1">Sender Identity Protection: This approach focuses on concealing the sender's identity from the Discovery Provider (DP). Techniques like IP blinding (e.g., using a Private Relay) can be employed to achieve this, ensuring the DP only learns the recipient's CSI.<a href="#appendix-C-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="appendix-C-2.2">
+          <p id="appendix-C-2.2.1">Recipient Identity Protection: This approach aims to hide the recipient's CSI from the DP. Methods like Private Information Retrieval (PIR) or Private Set Membership (PSM) allow the sender to perform the lookup without revealing the recipient's information to the DP, effectively limiting the DP's knowledge to the sender's identity.<a href="#appendix-C-2.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-D">
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-A-1">We would like to acknowledge and express our appreciation for the thoughtful feedback and constructive discussions that took place during the MIMI interim meetings focused on the discovery problem.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-D-1">We gratefully acknowledge the valuable feedback and constructive discussions received within the working group, in individual conversations, and during the MIMI interim meetings, as well as IETF 119, 120, and 121.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-B">
+<section id="appendix-E">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>

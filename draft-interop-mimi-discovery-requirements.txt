@@ -5,26 +5,26 @@
 More Instant Messaging Interoperability (mimi)                 G. Hogben
 Internet-Draft                                               F. Olumofin
 Intended status: Informational                                    Google
-Expires: 16 March 2025                                       J. Peterson
+Expires: 1 June 2025                                         J. Peterson
                                                               TransUnion
                                                             J. Rosenberg
                                                                    Five9
-                                                       12 September 2024
+                                                        28 November 2024
 
 
-                      MIMI Discovery Requirements
+                      User Discovery Requirements
             draft-interop-mimi-discovery-requirements-latest
 
 Abstract
 
-   This document defines requirements for the discovery problem within
-   the More Instant Messaging Interoperability (MIMI) working group.
-   Discovery is essential for interoperability, allowing message senders
-   to locate recipients across diverse platforms using globally unique,
-   cross-service identifiers (e.g., email addresses, phone numbers).
-   The core challenge involves reliably mapping these identifiers to
-   messaging service providers and determining the reachability of a
-   recipient's identifier across multiple providers.
+   This document defines requirements for the user discovery problem
+   within the More Instant Messaging Interoperability (MIMI) working
+   group.  User discovery is essential for interoperability, allowing
+   message senders to locate recipients across diverse platforms using
+   globally unique, cross-service identifiers (e.g., email addresses,
+   phone numbers).  The core challenge involves reliably mapping these
+   identifiers to messaging service providers and determining the
+   reachability of a recipient's identifier across multiple providers.
 
 About This Document
 
@@ -59,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 March 2025.
+   This Internet-Draft will expire on 1 June 2025.
 
 Copyright Notice
 
@@ -77,117 +77,51 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Terminology
-   2.  Introduction
-     2.1.  Problem Statement
-   3.  Prior Efforts
-   4.  Architectural Models
-     4.1.  Centralized DP (Monolithic Service)
-       4.1.1.  Advantages
-       4.1.2.  Drawbacks
-     4.2.  Hierarchical DPs (Discovery Resolvers)
-       4.2.1.  Advantages
-       4.2.2.  Drawbacks
-     4.3.  Federated DPs (Distributed Peer Service)
-       4.3.1.  Advantages
-       4.3.2.  Drawbacks
-     4.4.  Additional Considerations on Architectural Models
-       4.4.1.  Telephone Number CSIs
-       4.4.2.  Bias Mitigation
+   1.  Introduction
+   2.  Conventions and Definitions
+   3.  User Discovery Problem Statement
+   4.  Prior Efforts
    5.  Summary of Requirements
-   6.  Authenticating Mappings Requirements
-     6.1.  Functional Requirements
-     6.2.  Privacy and Security Requirements
-   7.  Preferences
-     7.1.  Basic Recipient's Preference Requirement
-     7.2.  Recipient's Critical User Journeys (implementations)
-   8.  Discovery Protocol Requirements
-     8.1.  Identifier Types
-     8.2.  Discovery Response Requirements
-       8.2.1.  Cardinalities
-       8.2.2.  Response format
-     8.3.  Discovery Request Requirement
-       8.3.1.  Requests
-       8.3.2.  Default behavior disclosure
-       8.3.3.  Client rate limit
-       8.3.4.  Server rate limit
-       8.3.5.  Rate-limiting context
-     8.4.  Privacy Requirements
-       8.4.1.  Requirement
-   9.  Operational Requirements
-     9.1.  Registry
-     9.2.  CSI Release Timeliness
-       9.2.1.  Mapping Prioritization Requirement
-       9.2.2.  Conflict Resolution Protocol Requirement
-       9.2.3.  Invalidate Capability Requirement
-     9.3.  CSI Claim Timeliness
-   10. Security Considerations
-     10.1.  Blackhole Prevention
-     10.2.  DDoS, Enumeration and Spam Prevention and Mitigation
-     10.3.  Encryption and Authentication
-     10.4.  Notes
-   11. IANA Considerations
-   12. Normative References
+   6.  Recipient Authorization of Mappings
+   7.  Recipient Preferences in Mappings
+   8.  Sender Retrieval of Mappings
+   9.  Mapping Authenticity Verification
+   10. Support for Varying Mapping Results
+   11. Protecting Sender and Recipient Privacy
+   12. In-Transit Encryption
+   13. Protection Against Enumeration Attacks
+   14. Mapping Removal
+   15. Security Considerations
+   16. IANA Considerations
+   17. Normative References
+   Appendix A.  Architectural Models
+     A.1.  Centralized DP (Monolithic Service)
+       A.1.1.  Advantages
+       A.1.2.  Drawbacks
+     A.2.  Hierarchical DPs (Discovery Resolvers)
+       A.2.1.  Advantages
+       A.2.2.  Drawbacks
+     A.3.  Federated DPs (Distributed Peer Service)
+       A.3.1.  Advantages
+       A.3.2.  Drawbacks
+     A.4.  Additional Considerations on Architectural Models
+       A.4.1.  Telephone Number CSIs
+       A.4.2.  Bias Mitigation
+   Appendix B.  Recipient's Critical User Journeys
+   Appendix C.  Protecting Sender-Recipient Social Graph Edge
    Acknowledgments
    Authors' Addresses
 
-1.  Terminology
+1.  Introduction
 
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in
-   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
-   capitals, as shown here.
-
-   Glossary of terms:
-
-   1.  A *Service Specific Identifier (SSI)* is a unique identifier for
-       a user within the context of a single messaging service provider.
-       It is not globally unique across services.  A fully-qualified SSI
-       includes the messaging service provider's unique identifier,
-       making it globally unique.  Note that existence of an unqualified
-       SSI on two or more services does not guarantee that the
-       associated accounts belong to the same user.  Thus, linking SSIs
-       across services requires other verified data to establish a
-       match.  An example of a service specific identifier is a user's
-       X/Twitter handle.
-
-   2.  A *Cross-Service Identifier (CSI)* is a globally unique
-       identifier for a user that can be used to identify the user
-       across multiple services.  For example, a user's E.164 phone
-       number, email address, or other service independent identifiers
-       are CSIs, since they can be used to identify the user across
-       multiple different services.
-
-   3.  A *Messaging Service Provider (MSP)* provides messaging, voice,
-       video and other forms of real-time communications services to end
-       users.  Examples of messaging service providers are WhatsApp,
-       Messages, iMessage, Wire, Matrix, Signal etc.  A user is
-       reachable using one or more CSIs and may have at least one SSI
-       internal to the MSP platform.
-
-   4.  A *Cross-Service Identifier Provider (CSIP)* is an entity that
-       issues, manages, and verifies CSIs.  Examples are traditional
-       telecom providers, email providers, and other platforms capable
-       of issuing user-controlled identifiers.
-
-   5.  A *Discovery Provider (DP)* is an entity that facilitates the
-       discovery reachability as outlined in this requirements document.
-       This involves creating, managing, and leveraging authoritative
-       mappings of CSIs to the MSPs where users can be reached.  We
-       expect that a DP may be operated by or affiliated with an MSP or
-       a third party.
-
-2.  Introduction
-
-   MIMI discovery seeks to enable users to easily connect and
-   communicate across different messaging platforms, even if they don't
-   know which specific platform the other person uses.  Currently, users
-   often need to ask contacts what service they are on out-of-band, or
-   try multiple services, which creates friction.  Specifically,
-   discovery helps a user on one messaging service (Alice on Service A)
-   to find another user on a potentially different or same service (Bob
-   on Service B) in a provider-neutral manner.
+   MIMI user discovery enables a message sender to locate messaging
+   service providers on which a particular recipient can be reached.
+   Currently, users often need to ask contacts what service they are on
+   out-of-band or try multiple services, which creates friction.
+   Specifically, discovery helps a user on one messaging service (Alice
+   on Service A) to find another user on a potentially different or the
+   same service (Bob on Service B) without prior knowledge of Bob's
+   provider, and in a provider-neutral manner.
 
    Discovery is necessary because the identifiers we commonly have for
    contacts (phone numbers, email addresses, etc.) do not necessarily
@@ -195,41 +129,80 @@ Table of Contents
    email alice@gmail.com might use iMessage, Signal, or another service
    entirely.  Thus, the core problem is how to take one of these cross-
    service identifiers and learn the messaging service provider that the
-   user is using, and how to communicate with them on that service.
+   user is using and how to communicate with them on that service.
 
-2.1.  Problem Statement
+2.  Conventions and Definitions
 
-   The discovery problem involves:
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
 
-   1.  Asserting verifiable mappings between CSIs and MSPs, and
+   1.  _Cross-Service Identifier (CSI)_: A globally unique identifier
+       for a user across multiple services (e.g., E.164 phone number,
+       email address).
 
-   2.  Looking up mappings to determine MSPs for which a CSI can be
-       reached for messaging.
+   2.  _Cross-Service Identifier Provider (CSIP)_: An entity that issues
+       and manages CSIs (e.g., telecom providers, email providers).
+
+   3.  _Messaging Service Provider (MSP)_: An entity offering messaging
+       services to end users (e.g., WhatsApp, Signal, iMessage).
+
+   4.  _Service Specific Identifier (SSI)_: A unique identifier for a
+       user within a single MSP (e.g., a Twitter handle).
+
+   5.  _Discovery Provider (DP)_: An entity that stores and facilitates
+       the discovery of MSPs for a given CSI.  A DP may be operated by
+       an MSP or a third party.
+
+   6.  _Verifiable Mapping_: A representation of the cryptographic
+       binding of a CSI and the set of MSPs where the CSI is reachable.
+
+   7.  _Recipient_: A user who possesses a CSI that has been assigned by
+       a CSIP and authorizes verifiable mapping of that CSI to an MSP
+       set.
+
+   8.  _Sender_: A user who queries a DP to discover the MSPs for a
+       given CSI.
+
+3.  User Discovery Problem Statement
+
+   User discovery involves two key aspects:
+
+   1.  _Authorization_: Recipients must be able to authorize verifiable
+       mappings between their CSIs and their chosen MSPs.
+
+   2.  _Lookup_: Senders must be able to query these mappings to
+       determine where a recipient can be reached.
+
+   To authorize verifiable mappings, the recipient must:
+
+   *  Possess a valid, CSIP-issued CSI.
+
+   *  Have active accounts with each MSP to be mapped.
+
+   *  Associate the CSI with each of those accounts.
 
    Discovered mappings must be verifiable to ensure they are accurate.
    Crucially, discovery must prioritize user privacy, allowing users to
    control their discoverability, and it must integrate well with end-
    to-end encryption and other MIMI protocols.
 
-   Note that mapping lookup is distinct from the retrieval of the user's
-   SSI and cryptographic keys.  Retrieval of the SSI and keys typically
-   occurs as part of the messaging process and can easily be done after
-   the MSP for the message recipient has been located through discovery.
-   For example, an MSP might store a mapping of CSIs to SSIs and
-   cryptographic keys.  The client would then retrieve this data just
-   before Alice sends a message to Bob, following the successful
-   discovery that Bob is reachable through the MSP.
+   *Note:* This document focuses on discovering _which_ MSPs a user is
+   on.  Retrieving SSIs and cryptographic keys can be a separate,
+   subsequent step.
 
    The rest of this document describes a series of requirements for the
    discovery problem.
 
-3.  Prior Efforts
+4.  Prior Efforts
 
    Discovery services are far from new on the Internet.  The whois
    protocol [RFC3912], largely focused on mapping domain names to
-   associated services.  It was one of the earliest discovery services
+   associated services, was one of the earliest discovery services
    deployed on the Internet.  DNS SRV records, specified in [RFC2782],
-   allow a similar process - given a domain name, a user can discover
+   allow a similar process—given a domain name, a user can discover
    available services, such as VoIP based on the Session Initiation
    Protocol (SIP) [RFC3261] [RFC3263].  SRV records were adapted
    specifically for messaging in [RFC3861].  However, both whois and DNS
@@ -237,10 +210,10 @@ Table of Contents
    unsuitable for identifiers like mobile phone numbers, which don't
    have inherent domain associations.
 
-   ENUM [RFC6117] addressed this limitation.  It used DNS to lookup
+   ENUM [RFC6117] addressed this limitation.  It used DNS to look up
    phone numbers by reversing the digits and adding the "e164.arpa"
    suffix.  This allowed delegation of portions of the namespace to
-   telco providers who owned specific number prefixes.  While
+   telecom providers who owned specific number prefixes.  While
    technically straightforward, public deployment of ENUM was hampered
    by challenges in establishing authority for prefixes.  However,
    private ENUM [RFC6116] services have become relatively common,
@@ -261,701 +234,281 @@ Table of Contents
    are largely scoped within large providers such as Facebook, Twitter,
    WhatsApp, and others.
 
-   The MIMI discovery service requires a solution that spans providers.
-
-4.  Architectural Models
-
-   To ensure completeness and to address implementation considerations
-   for MIMI DP, we present several potential architectural models.  The
-   working group observed these requirements are similar among these
-   models and opted to maintain architectural neutrality for the
-   discovery protocol.  However, we will outline requirements for the
-   roles of DPs, how they interact with each other, MSPs in a federated
-   model, and how DPs accommodate queries from both MSPs and users.
-
-4.1.  Centralized DP (Monolithic Service)
-
-   A globally accessible, authoritative database (potentially sharded/
-   replicated) stores all authenticated CSI mappings.  This monolithic
-   service, implemented across synchronized global nodes, handles all
-   CSI queries from messaging platforms and acts as the single source of
-   truth for mapping data, even if certain mappings may be restricted in
-   specific regions due to geopolitical considerations.
-
-4.1.1.  Advantages
-
-   *  Standardization and uniform control over mapping creation,
-      updates, and data formats.
-
-   *  Promotes fair and unbiased CSI mapping discovery.
-
-   *  Single source of truth for mapping simplifies data management and
-      ensures consistency.
-
-   *  Sharding/replication can address geographical distribution and
-      performance needs.
-
-4.1.2.  Drawbacks
-
-   *  Centralization of sensitive user data raises privacy risks.
-
-   *  May conflict with data localization regulations.
-
-   *  Single point of failure vulnerability from outages affecting the
-      entire system.
-
-   *  Potential difficulty with immediate global updates for rapidly
-      changing mappings.
-
-4.2.  Hierarchical DPs (Discovery Resolvers)
-
-   A global root Discovery Provider (DP) directs mapping requests to
-   authoritative DPs based on CSI structure (e.g., country codes for
-   E.164 phone numbers) or sharding mechanisms.  The root DP, similar to
-   hierarchical DNS, acts as a directory service, holding pointers to
-   authoritative DPs rather than mappings themselves.  Alternatives to
-   hierarchical resolution, like the LoST protocol [RFC5222], or
-   distributed hash tables (DHTs), can achieve similar outcomes.
-
-4.2.1.  Advantages
-
-   *  Scalability from distributed load and mapping management across
-      multiple DPs.
-
-   *  Flexibility that allows different DPs to specialize in specific
-      CSI ranges for regions.
-
-   *  Better alignment with data localization requirements.
-
-4.2.2.  Drawbacks
-
-   *  Requires coordination and maintenance of hierarchy.
-
-   *  Root DP failure could disrupt the entire system.
-
-   *  Potential delays due to additional hops in the discovery process.
-
-4.3.  Federated DPs (Distributed Peer Service)
-
-   In a federated model, multiple independent DPs collaborate to provide
-   CSI mapping discovery.  Each DP holds a subset of mappings and
-   pointers to other DPs, with no central authority dictating mapping
-   locations.  Discovering all mappings for a CSI may involve querying
-   multiple DPs.  DPs can exchange CSI information or recursively query
-   each other.  The specifics of DP federation are determined by
-   business agreements, not technical requirements.  A variation of this
-   model involves messaging platforms acting as their own DPs, managing
-   mappings for their users.
-
-4.3.1.  Advantages
-
-   *  Decentralization ensures there is no single point of control or
-      failure.  The system can continue functioning even if some DPs are
-      unavailable.
-
-   *  Mappings can be distributed according to local regulations.
-
-4.3.2.  Drawbacks
-
-   *  Discovery process may involve querying multiple DPs, increasing
-      network load.
-
-   *  Potential for bias as DPs may prioritize their own mappings,
-      leading to uneven results.
-
-   *  Requires robust mechanisms to prevent CSI impersonation and ensure
-      trust between DPs.
-
-   *  Pairwise relationships in a federated DP model could create a
-      barrier to entry for smaller MSP/DPs, similar to the trust
-      requirements in the DKIM [RFC6376] and DMARC [RFC8616] ecosystems.
-
-4.4.  Additional Considerations on Architectural Models
-
-4.4.1.  Telephone Number CSIs
-
-   Telephone number portability is complex due to its reliance on real-
-   time queries to proprietary and legacy systems.  Overall, the
-   authenticated mappings proposed for MIMI may necessitate additional
-   platform measures to assess mapping freshness and ensure up-to-date
-   reachability responses.
-
-4.4.2.  Bias Mitigation
-
-   Bias occurs when a DP prioritizes mappings to its affiliated MSP
-   without consideration of what is best for end users.  Mitigating bias
-   is essential to ensure fair and equitable discovery of authenticated
-   mappings across different services.  The working group has decided to
-   defer such mitigation to policies and regulations, excluding it from
-   the discovery protocol.
+   The MIMI discovery service requires a solution that works across
+   providers.
 
 5.  Summary of Requirements
 
-   +====+=======================================+===========+==========+
-   | #  | Requirement                           | Mandatory | Optional |
-   +====+=======================================+===========+==========+
-   |    | *Authenticating Mappings*             |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 1  | DP MUST verify user's CSI             | x         |          |
-   |    | possession through proof-of-          |           |          |
-   |    | possession challenges through a       |           |          |
-   |    | CSIP, certificate authority or        |           |          |
-   |    | designated parties                    |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 2  | MSP MUST confirm CSI                  | x         |          |
-   |    | reachability on its service           |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 3  | Client, MSP, and DP must              | x         |          |
-   |    | collaborate to generate a             |           |          |
-   |    | verifiable representation of the      |           |          |
-   |    | CSI-to-MSP mapping.  This can         |           |          |
-   |    | then be shared with any DP and        |           |          |
-   |    | verifiable by clients                 |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 4  | DP MUST NOT be able to create a       | x         |          |
-   |    | verifiable mapping without CSI        |           |          |
-   |    | holder and MSP involvement            |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 5  | DP MUST NOT be able to falsely        | x         |          |
-   |    | claim user completed proof-of-        |           |          |
-   |    | possession                            |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 6  | Other users MUST be able to           | x         |          |
-   |    | verify CSI holder's                   |           |          |
-   |    | participation in mapping              |           |          |
-   |    | creation                              |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 7  | Authenticated mappings MUST           | x         |          |
-   |    | include a preference tag to           |           |          |
-   |    | enable recipients to control          |           |          |
-   |    | their preferred contact mapping       |           |          |
-   +----+---------------------------------------+-----------+----------+
-   |    | *Discovery Protocol*                  |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 8  | Discovery MUST support any            | x         |          |
-   |    | globally unique CSI with backing      |           |          |
-   |    | source of truth (CISP for             |           |          |
-   |    | telephone), ownership proof, and      |           |          |
-   |    | cross-service usability               |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 9  | DP MUST protect at least the          | x         |          |
-   |    | querier's identity or the target      |           |          |
-   |    | CSI in requests                       |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 10 | Discovery requests MUST support       | x         |          |
-   |    | federation, MSP filter, and DP        |           |          |
-   |    | list query parameters                 |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 11 | DP MUST disclose default              | x         |          |
-   |    | behavior and comply with agreed-      |           |          |
-   |    | upon federation default               |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 12 | DP MAY rate-limit non-default         |           | x        |
-   |    | queries given their higher            |           |          |
-   |    | processing costs                      |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 13 | DP MAY rate-limit requests sent       |           | x        |
-   |    | to low-throughput DP endpoints        |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 14 | Discovery MUST accommodate zero,      | x         |          |
-   |    | one, or multiple MSPs in results      |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 15 | The protocol MUST define both         |           |          |
-   |    | verbose and compact response          |           |          |
-   |    | formats, where verbose responses      |           |          |
-   |    | include detailed mapping              |           |          |
-   |    | information and metadata, while       |           |          |
-   |    | compact responses provide a           |           |          |
-   |    | simple indication of CSI              |           |          |
-   |    | reachability on returned MSPs         |           |          |
-   +----+---------------------------------------+-----------+----------+
-   |    | *Operational*                         |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 16 | Discovery service MUST remove         | x         |          |
-   |    | mappings made outdated by CSI         |           |          |
-   |    | re-assignment to a new user           |           |          |
-   |    | within reasonable time                |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 17 | Older mappings generally take         | x         |          |
-   |    | precedence over newer ones for        |           |          |
-   |    | the same CSI unless explicitly        |           |          |
-   |    | invalidated by the original CSI       |           |          |
-   |    | holder or superseded by a             |           |          |
-   |    | stricter proof of possession          |           |          |
-   |    | verification                          |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 18 | DP MUST verify if a mapping is        | x         |          |
-   |    | the first mapping for a given         |           |          |
-   |    | CSI and, if so, broadcast             |           |          |
-   |    | invalidation requests to other        |           |          |
-   |    | DPs to invalidate any existing        |           |          |
-   |    | mappings for that CSI                 |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 19 | Users SHOULD be provided with         |           | x        |
-   |    | mechanisms to invalidate              |           |          |
-   |    | existing mappings or create a         |           |          |
-   |    | replacement mapping for their         |           |          |
-   |    | CSIs                                  |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 20 | New CSI mappings SHOULD be            |           | x        |
-   |    | discoverable within some              |           |          |
-   |    | standardized maximum time limit       |           |          |
-   |    | (e.g., 24 hours)                      |           |          |
-   +----+---------------------------------------+-----------+----------+
-   |    | *Security*                            |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 21 | Discovery service MUST leverage       | x         |          |
-   |    | contractual and technical means       |           |          |
-   |    | prevent malicious MSPs from           |           |          |
-   |    | falsely claiming CSI association      |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 22 | Discovery service MUST                | x         |          |
-   |    | incorporate anti-DDoS, anti-          |           |          |
-   |    | enumeration and anti-spam             |           |          |
-   |    | mechanisms                            |           |          |
-   +----+---------------------------------------+-----------+----------+
-   | 23 | All communication between             | x         |          |
-   |    | clients, DPs, and MSPs MUST be        |           |          |
-   |    | encrypted in transit and              |           |          |
-   |    | authenticated                         |           |          |
-   +----+---------------------------------------+-----------+----------+
+   This section provides a summary of the requirements for MIMI user
+   discovery.
+
+       +=====+==============================+===========+==========+
+       | #   | Requirement                  | Mandatory | Optional |
+       +=====+==============================+===========+==========+
+       |     | *Recipients*                 |           |          |
+       +-----+------------------------------+-----------+----------+
+       | R1  | Only the recipient MUST be   | x         |          |
+       |     | able to authorize verifiable |           |          |
+       |     | mapping of the recipient's   |           |          |
+       |     | CSI to an MSP set            |           |          |
+       +-----+------------------------------+-----------+----------+
+       | R2  | A mapping MUST allow for the | x         |          |
+       |     | inclusion of tags or similar |           |          |
+       |     | constructs to indicate the   |           |          |
+       |     | recipient's preferences for  |           |          |
+       |     | using each included MSP      |           |          |
+       +-----+------------------------------+-----------+----------+
+       |     | *Senders*                    |           |          |
+       +-----+------------------------------+-----------+----------+
+       | R3  | Senders MUST be able to      | x         |          |
+       |     | retrieve all verifiable      |           |          |
+       |     | mappings for a CSI           |           |          |
+       +-----+------------------------------+-----------+----------+
+       | R4  | Senders MUST be able to      | x         |          |
+       |     | verify the authenticity of   |           |          |
+       |     | mappings                     |           |          |
+       +-----+------------------------------+-----------+----------+
+       |     | *Discovery Provider*         |           |          |
+       +-----+------------------------------+-----------+----------+
+       | R5  | Discovery MUST support       | x         |          |
+       |     | results with zero, one, or   |           |          |
+       |     | multiple mappings            |           |          |
+       +-----+------------------------------+-----------+----------+
+       | R6  | DPs MUST NOT be able to      | x         |          |
+       |     | learn both the sender's      |           |          |
+       |     | identity and the recipient's |           |          |
+       |     | CSI                          |           |          |
+       +-----+------------------------------+-----------+----------+
+       | R7  | All data exchanged in the    | x         |          |
+       |     | processing of a discovery    |           |          |
+       |     | request MUST be encrypted in |           |          |
+       |     | transit                      |           |          |
+       +-----+------------------------------+-----------+----------+
+       | R8  | DPs SHOULD be protected      |           | x        |
+       |     | against enumeration attacks  |           |          |
+       +-----+------------------------------+-----------+----------+
+       | R9  | DPs MUST provide a way to    | x         |          |
+       |     | remove mappings              |           |          |
+       +-----+------------------------------+-----------+----------+
+       | R10 | Only the recipient or the    |           | x        |
+       |     | CSIP SHOULD be able to       |           |          |
+       |     | remove mappings              |           |          |
+       +-----+------------------------------+-----------+----------+
 
                                   Table 1
 
-6.  Authenticating Mappings Requirements
-
-   A Discovery Provider aggregates mappings between CSIs and platforms
-   from trusted sources.  To prevent impersonation attacks where
-   platforms or users simply claim to own a CSI, the user must solve a
-   proof of possession challenge for the CSI before a DP can establish
-   reachability mapping involving the CSI.  Suitable approaches include
-   SMS one-time-code or voice call verification to prove possession of
-   phone number, email link verification for emails, OAuth sign-in for
-   Twitter and YouTube identifiers.  A potential architecture for
-   generating credentials from proof-of-possession checks is shown in
-   [I-D.draft-peterson-mimi-idprover].  A platform performing discovery
-   should be able to verify that the target user established the
-   reachability mapping.  Note that once a mapping is created, it can be
-   distributed by any DP, and it should include metadata for clients
-   that receive it to verify its authenticity.
-
-6.1.  Functional Requirements
-
-   At least, a user's client, MSP, and DP MUST participate in a
-   consensus protocol to establish a CSI-to-MSP mapping with the
-   following requirements:
-
-   1.  The DP MUST verify the user's possession of the CSI through some
-       proof-of-possession challenge.
-
-   2.  The MSP MUST confirm that the CSI is reachable on its service.
-
-   3.  The client, MSP, and DP must collaborate to generate a verifiable
-       representation of the CSI-to-MSP mapping (e.g., using a threshold
-       signature).  The can then be shared with any DP and verifiable by
-       clients.
-
-6.2.  Privacy and Security Requirements
-
-   1.  A DP MUST NOT be able to create a verifiable mapping without the
-       involvement of the user holding the CSI and MSP.
-
-   2.  The DP MUST NOT be able to falsely claim that a user completed
-       the proof-of-possession challenge.
-
-   3.  Other users MUST be able to verify that the CSI holder (and not
-       an imposter) participated in creating the mapping.
-
-7.  Preferences
-
-   The discovery process involves the preferences of multiple
-   stakeholders:
-
-   1.  the querier seeking reachability information,
-
-   2.  the user with the mapped identity, and
-
-   3.  DPs (and by extension, the collaborating MSPs).
-
-   The authors suggest the following:
-
-   *  Implementations shouldn't dictate a one-size-fits-all approach for
-      expressing and meeting these preferences, but should rather
-      implement basic building blocks for each of these parties to
-      express their preferences.
-
-   *  DPs should clearly communicate their preference handling practices
-      to promote transparency and trust.
-
-   *  The discovery requirements consider detailed preferences and
-      capabilities out of scope, leaving them to individual
-      implementations.
-
-   *  Given that the sender initiates discovery requests and already has
-      options on which app, MSP, and DP to query, we will only provide a
-      basic recipient preference specification as a requirement below.
-
-7.1.  Basic Recipient's Preference Requirement
-
-   Requirement: Authenticated mappings MUST include a preference tag to
-   enable recipients to control their preferred contact mapping.
-
-   The preference tag can be either a string (e.g., "Business",
-   "Personal", "BasketballFriends", "WhatsApp") or a list of strings
-   (e.g., "Business, WhatsApp").  For example, a recipient might want
-   senders from WhatsApp to utilize a specific non-default "WhatsApp"
-   mapping.
-
-   1.  The default mapping must be designated as "Default" and cannot be
-       a list.
-
-   2.  Non-default mappings can have one or more tags to signify the
-       recipient's intended purpose for that contact mapping.
-
-   3.  The total length of tags should be limited within the protocol.
-
-   4.  If a CSI's set of mappings lacks a default mapping or multiple
-       mappings have the "Default" tag, the recipient can choose any of
-       the mappings for communication.
-
-   5.  Tie-breaking should occur only once and be re-evaluated solely
-       through explicit user action.  This prevents messages from a
-       sender from being scattered across multiple mappings for the
-       recipient.
-
-7.2.  Recipient's Critical User Journeys (implementations)
-
-   Here are some Critical User Journeys (CUJs) that are the most
-   important to discovery recipients.
-
-   In the CUJs below, Bob is the recipient, and Alice is the sender or
-   user performing discovery:
-
-   1.  Sender mapping preferences: Bob only wants to be found by Alice
-       and other users on WhatsApp, not his other messaging apps.
-
-   2.  Same-app preferences: Bob prefers that Alice can find him on the
-       same messaging service that she is using.  In other words, Bob
-       does not want cross-app discovery and messaging.
-
-   3.  No-random mapping preferences: Bob does not want to go through
-       multiple apps to find a message from Alice when discovery returns
-       one of 10 mappings that Bob has established with discovery
-       providers.
-
-   4.  No-duplication preferences: Bob does not want Alice's messages to
-       be broadcasted to all or a subset of his apps based on the result
-       of discovery.
-
-   5.  Per-sender preferences: Bob wants to control which app messages
-       from Alice go to and do the same for other users (e.g., Carol's
-       messages may go to a different app than Alice's).
-
-   6.  Closed group preferences: Bob only wants his soccer parents to
-       discover and contact him on WhatsApp, not his Wire app.  That is,
-       a group of senders has the same mapping results based on Bob's
-       preferences.
-
-   7.  Open-ended group preferences: Bob wants his business contacts to
-       discover and reach him on Wire, not WhatsApp.  That is, an open-
-       ended list of senders (i.e., including leads) are provided with a
-       designated mapping.
-
-8.  Discovery Protocol Requirements
-
-8.1.  Identifier Types
-
-   Discovery MUST support any globally unique cross-service identifier
-   with the following characteristics:
-
-   1.  Backing source of truth: Authoritative issuing entities exist for
-       issuing the CSI to users (e.g., CSIP for telephone numbers).
-
-   2.  Ownership proof mechanism: The user issued a CSI must be able to
-       demonstrate or pass a proof of possession challenge from a remote
-       prover.
-
-   3.  Versatility: CSIs must be deployable and usable across multiple
-       services
-
-   Phone numbers and email addresses are examples of suitable and
-   supported identifiers.
-
-8.2.  Discovery Response Requirements
-
-8.2.1.  Cardinalities
-
-   The discovery protocol must accommodate scenarios with varying
-   numbers of MSPs in the discovery results:
-
-   1.  Zero MSPs: The system should indicate a no-match condition if
-       users and their associated Identifiers (e.g., CSIs) are not
-       discoverable on any MSP.  This enables the originating user to
-       recognize that the CSI is not reachable via the discovery system.
-
-   2.  One MSP: The system should function efficiently when a CSI is
-       associated with a single MSP.
-
-   3.  Multiple MSPs: The system should accommodate users with multiple
-       MSPs.
-
-8.2.2.  Response format
-
-   An MSP or client app may request responses that are verbose or
-   compact.  A verbose response may include all unique lists of mappings
-   discovered with metadata for the client to verify each mapping, and
-   metadata about the list or count of DPs where that mapping was found.
-   A compact response may be as simple as a bit string with each set bit
-   representing that the CSI is found in the MSP assigned to that bit
-   position.  The protocol MUST define specific formats for both
-   response types.
-
-8.3.  Discovery Request Requirement
-
-8.3.1.  Requests
-
-   Discovery requests must include the CSI and may include additional
-   query parameters to guide the search process.  The query parameters
-   below MUST be supported.
-
-8.3.1.1.  Federation
-
-   Indicate if the DP should answer queries using its own database or
-   federate the request to other DPs and aggregate their answers in a
-   fair and transparent manner.  In a federated model, a DP that chooses
-   not to federate may be limited in the queries it can answer.
-   Certainly, a DP can incorporate mappings that either reference
-   another DP's mapping or materialize those mappings into its own local
-   database.
-
-8.3.1.2.  MSP filter
-
-   Useful for scoping the response of interest to one or more MSPs
-   (e.g., query for CSI mapping to WhatsApp only).
-
-8.3.1.3.  DP list
-
-   A list of DPs may accompany each query to guide a DP on query
-   federation decisions.  These sub-options for DP list must be
-   supported:
-
-   *  DP-preferred federation: signals for the DP to forward the query
-      to its preferred subset of DPs.
-
-   *  Client-selected federation: instructs the DP to forward the query
-      to a specific list of DPs provided by the client.
-
-   *  All DPs: mandates the DP to forward the query to all DPs within
-      the ecosystem, utilizing a publicly accessible registry (described
-      below).
-
-8.3.2.  Default behavior disclosure
-
-   A DP must externally disclose its default behavior which should be
-   consistent with local regulatory requirements (e.g., do not federate
-   by default for performance, privacy or regulatory reasons).  For
-   example, in the absence of a context parameter, the DP disclosed it
-   will utilize its local database to fulfill requests.
-
-   A DP must follow some preferred default behavior that is agreed at
-   the federation level.
-
-8.3.3.  Client rate limit
-
-   Again, forking discovery requests consume ecosystem resources, and
-   could facilitate attacks.  Hence a DP may rate-limit non-default
-   queries.  Specifically, a client may be limited to a few queries
-   daily when federated to the entire ecosystem DPs.
-
-8.3.4.  Server rate limit
-
-   DPs may optionally rate-limit requests directed at DP endpoints with
-   low query processing throughput for discovery responsiveness.
-
-8.3.5.  Rate-limiting context
-
-   A DP must provide sufficient context to the federation of DPs on a
-   fork tree to assist them in rate-limiting requests from specific
-   clients in a privacy-friendly manner.
-
-8.4.  Privacy Requirements
-
-8.4.1.  Requirement
-
-   A DP must protect at least one end of the social graph during a
-   request.  In other words, the DP must protect either the querier's
-   identity or the CSI of interest in requests.
-
-   Possible implementation approaches when Alice is discovering Bob's
-   reachability:
-
-   1.  Querier identity protection: IP blinding (e.g., Private Relay)
-       can help to conceal Alice's identity or IP address so the DP may
-       learn the query target only.
-
-   2.  Query content protection: Techniques like Private Information
-       Retrieval (PIR) or Private Set Membership (PSM) can conceal the
-       target CSI, so the DP may learn the querier only.
-
-   The messaging social graph of a user shows all the other users that
-   the user has communicated with over time.The discovery social graph
-   of a user shows all the users for whom discovery has been attempted.
-   The discovery social graph is significantly larger than the messaging
-   social graph, even though there may be some overlap between the two.
-   To clarify, a user's address book defines their potential social
-   network.  MIMI discovery, when applied comprehensively using the
-   address book, reveals that network on various services.  In contrast,
-   the messaging social graph only includes contacts actively messaged
-   within a specific period, which is inherently a subset of the user's
-   wider contact network.  Since discovery can query for users the
-   initiator hasn't yet messaged, the discovery social graph is
-   naturally larger.
-
-9.  Operational Requirements
-
-   The discovery service must support a decentralized architecture with
-   multiple DPs, enabling federation based on user preferences,
-   geopolitical boundaries, and DP-specific policies.
-
-   Some additional considerations:
-
-   1.  Federation mechanisms: Protocols or standards for DPs to
-       communicate and exchange mapping data must be defined.  This
-       includes how requests are routed and how DPs locate potentially
-       relevant mappings stored elsewhere.
-
-   2.  Data sovereignty: Regulations such as GDPR have a direct impact
-       on where user data can reside.  Solutions must be designed to
-       respect data locality and follow jurisdictional laws.
-
-9.1.  Registry
-
-   It is likely that reachability mappings on some services will not be
-   shared publicly for privacy reasons.  Thus DPs may federate: for
-   example, a discovery client may send a request to one DP, which will
-   then need to consult a second DP in order to complete the request.
-   Some sort of policies will need to govern the relationships between
-   DPs and the terms under which they federate.  Such a policy is
-   outside MIMI's purview.
-
-   Metadata and service configurations about federation membership of
-   interoperable DPs may be hosted on a registry managed by the
-   federation.  Each DP's record may include a unique identifier,
-   discovery endpoints, and other configuration metadata.
-
-9.2.  CSI Release Timeliness
-
-   The discovery service must strive to remove outdated mappings
-   (resulting from users ending service with a CSIP) within a reasonable
-   timeframe, but this timeframe must acknowledge the limitations of
-   existing legacy systems and the potential for identifier reuse.  For
-   example, in scenarios where a number is disconnected and later
-   reassigned, the new user must designate the very first mapping as
-   such.  This triggers the DP to broadcast invalidation requests to
-   other DPs, effectively clearing any lingering mappings associated
-   with the reassigned number.
-
-9.2.1.  Mapping Prioritization Requirement
-
-   Whenever a new mapping is attempted for an existing CSI, the one
-   established earlier should generally take precedence.  This
-   precedence SHOULD be overridden ONLY in the following cases:
-
-   1.  The original CSI holder explicitly signals the mapping is no
-       longer valid.
-
-   2.  A new user of the CSI establishes a mapping and successfully
-       completes a stricter proof of possession verification process.
-
-9.2.2.  Conflict Resolution Protocol Requirement
-
-   1.  DPs MUST implement a conflict resolution protocol when a new
-       mapping creation attempt is made for a CSI that already has
-       mappings within the DP's service.
-
-   2.  This protocol SHOULD include a privacy-preserving notification to
-       the holder of any existing mappings (without revealing the new
-       user's identity).
-
-   3.  If the conflict cannot be automatically resolved, the DP MAY
-       escalate to a manual review process that involves additional
-       verification steps for the new user.
-
-9.2.3.  Invalidate Capability Requirement
-
-   1.  Mechanisms SHOULD be provided to enable users to signal that a
-       CSI they previously used is no longer under their control.  This
-       could include:
-
-       *  Collaborations with CSIP to receive re-assignment
-          notifications.
-
-       *  User-initiated invalidation requests.
-
-   2.  Invalidate signals SHOULD trigger updates to discovery mappings
-       to minimize conflicts.
-
-9.3.  CSI Claim Timeliness
-
-   Upon a user obtaining service for a new CSI (e.g., phone number or
-   email address) from a CSIP, the discovery service must enable
-   immediate discoverability when the user associates the CSI with a
-   MSP.  The MSP MUST implement a mechanism to validate the user's
-   control over the claimed CSI (as usual).
-
-10.  Security Considerations
-
-10.1.  Blackhole Prevention
-
-   The discovery service must be designed to prevent malicious MSPs from
-   falsely claiming association with a CSI to prevent messages intended
-   for the legitimate user from being delivered.  This includes:
-
-   *  Preventing message interception: Malicious MSPs MUST NOT be able
-      to redirect messages by associating themselves with a CSI they do
-      not control.
-
-   *  Ensuring accurate discoverability: Malicious MSPs MUST NOT be able
-      to make a non-user appear discoverable, leading to misdirected
-      messages or false impressions of service adoption.
-
-10.2.  DDoS, Enumeration and Spam Prevention and Mitigation
-
-   The discovery service MUST put in place robust mechanisms to prevent
-   and mitigate DDoS, large-scale CSI scraping and spamming by malicious
-   providers (MSPs, DPs).  This requirement includes:
-
-   *  Anti-DDoS, anti-enumeration and anti-spam defenses: The system
-      design must effectively thwart attempts to DDoS attack, enumerate
-      CSIs (especially phone numbers), and prevent the creation of spam
-      target lists.  Techniques may include restrictions on bulk
-      queries, obfuscation, or differential access levels based on MSP
-      reputation and relationships.
-
-   *  Flexible rate limiting: DPs must be able to enforce rate limits on
-      discovery requests, with mechanisms to determine appropriate
-      limits based on individual MSP behavior, business relationships,
-      and potential risks.
-
-10.3.  Encryption and Authentication
-
-   All information exchanged between clients, DPs, and MSPs MUST be
-   encrypted in transit and authenticated.
-
-10.4.  Notes
-
-11.  IANA Considerations
+6.  Recipient Authorization of Mappings
+
+   _R1: Only the recipient MUST be able to authorize verifiable mapping
+   of the recipient's CSI to an MSP set._
+
+   This requirement prevents unauthorized mapping and potential
+   impersonation attacks.  The integrity of mappings requires the
+   recipient to be the sole party to authorize mappings of the
+   recipient's CSI to the designated MSP set.  Allowing any other user
+   besides the recipient to authorize the creation of verifiable
+   mappings could open the recipient to impersonation attacks, where the
+   MSP set will include MSPs where the attacker controls the accounts.
+
+   It is expected that the recipient has active accounts with each MSP
+   in the set and has already linked the CSI with each of those MSP
+   accounts.  If a recipient includes MSPs that do not meet these
+   preconditions, the recipient will not be reachable on the incorrect
+   MSPs.  While this problem can be resolved if each MSP participates in
+   creating verifiable mappings to confirm the recipient's account
+   exists, mapping creation will be more involved.  Hence, this issue is
+   deferred as a post-discovery problem to address.
+
+7.  Recipient Preferences in Mappings
+
+   _R2: A mapping MUST allow for the inclusion of tags or similar
+   constructs to indicate the recipient's preferences for using each
+   included MSP._
+
+   This requirement allows recipients to guide how senders contact them
+   on different MSPs.  For example, a preference tag may be formulated
+   as closed or open-ended strings (e.g., "Business", "Personal",
+   "BasketballFriends", "WhatsApp") or a list (e.g., "Business,
+   WhatsApp").  A recipient might want senders to utilize a specific
+   "Business" mapping for business messaging and a different one for
+   other types of messaging.
+
+   This requirement prioritizes recipient preferences because senders
+   already have flexibility in choosing their MSP (and potentially DP)
+   when initiating requests.  Further considerations regarding sender
+   and DP preferences, as well as more complex recipient preferences,
+   are deemed to be implementation issues.  See Appendix B: Recipient's
+   Critical User Journeys for some more examples for recipients.
+
+8.  Sender Retrieval of Mappings
+
+   _R3: Senders MUST be able to retrieve all verifiable mappings for a
+   CSI._
+
+   This requirement ensures senders have complete information for
+   reaching a recipient.  When a sender queries for mappings established
+   for a given recipient's CSI, all available verifiable mappings that
+   exist must be returned as a response.
+
+9.  Mapping Authenticity Verification
+
+   _R4: Senders MUST be able to verify the authenticity of mappings._
+
+   This requirement enables senders to trust the mapping information.
+   On receipt of the mappings that exist for a recipient's CSI, the
+   sender should have a means to verify the authenticity of the mappings
+   by learning that the recipient authorized that mapping.  The
+   verification process may leverage all or parts of the mapping content
+   and may involve network calls to an oracle to help with the
+   verification, provided the oracle query process is consistent with
+   Requirement 6.
+
+10.  Support for Varying Mapping Results
+
+   _R5: Discovery MUST support results with zero, one, or multiple
+   mappings._
+
+   This requirement covers cases where a user has no mappings, has opted
+   out of discovery, or uses multiple MSPs.  Regardless of how the
+   verifiable mapping structure is represented (e.g., one CSI to a set
+   of MSPs, or one CSI to one MSP repeated for each MSP), senders must
+   be able to determine the following from a user discovery response for
+   a given CSI:
+
+   *  No mapping exists, e.g., the recipient has not created any
+      mapping.
+
+   *  One or more mappings exist, but without listed MSPs, e.g., the
+      recipient has intentionally configured discovery to return no
+      mappings.
+
+   *  One mapping exists with one listed MSP.
+
+   *  One mapping exists with multiple listed MSPs.
+
+   *  Multiple mappings exist, each potentially with a different number
+      of MSPs.
+
+   In situations where the recipient who authorized mappings using a
+   CSI, such as an email address, becomes unreachable (e.g., due to the
+   user's death), implementations can rely on the MSPs included in the
+   mapping to resolve non-reachability issues outside user discovery.
+
+11.  Protecting Sender and Recipient Privacy
+
+   _R6: DPs MUST NOT be able to learn both the sender's identity and the
+   recipient's CSI._
+
+   This requirement prevents the DP from building a complete social
+   graph of users across MSPs.  This protects user privacy by limiting
+   the information the DP can gather about relationships between senders
+   and recipients.
+
+   User discovery lookups inherently create a connection point (an edge)
+   on the social graph between the sender and the recipient.  To protect
+   the privacy of both parties, the DP must be prevented from learning
+   this connection consisting of the sender's identity and the
+   recipient's CSI/mapping.  Specifically, the DP can learn at most one
+   of the following:
+
+   1.  Identifying information about the sender, such as their source IP
+       address, username, etc.
+
+   2.  The recipient's CSI and any associated response mappings.
+
+   While the DP might be able to infer this edge or connection later if
+   both users communicate through the same MSP, this requirement focuses
+   on preventing the DP from directly learning this during discovery.
+   To understand the importance of this, it's helpful to distinguish
+   between two types of social graphs:
+
+   *  Messaging social graph: Reflects actual communication between
+      users.
+
+   *  Discovery social graph: Encompasses all attempted user discovery
+      lookups, which can be significantly larger than the messaging
+      social graph, as it includes searches for users the sender may not
+      ultimately contact.
+
+   Protecting user privacy during discovery is crucial because, without
+   it, a sender's entire discovery social graph could be revealed during
+   bulk discovery that requires the lookup of all contacts on the
+   sender's address book, which exposes a much broader range of
+   potential connections than their actual messaging activity.
+   Appendix C Protecting Sender-Recipient Social Graph Edge has some
+   recommendations for implementation.
+
+12.  In-Transit Encryption
+
+   _R7: All data exchanged in the processing of a discovery request MUST
+   be encrypted in transit._
+
+   This requirement ensures the confidentiality of discovery requests
+   and responses.
+
+13.  Protection Against Enumeration Attacks
+
+   _R8: DPs SHOULD be protected against enumeration attacks._
+
+   This requirement ensures there is a security defense against attacks
+   aimed at scraping mapping data.  Discovery providers should implement
+   mechanisms to defend against large-scale scraping of mappings from
+   their database, which can be used to compile spam targeting lists.
+
+   One potential implementation approach is to utilize time-bound blind
+   signatures.  This method limits the number of user discovery lookups
+   a sender can perform within a given timeframe.  Each lookup request
+   must include a unique, unblinded signature that cannot be linked to
+   the sender's identity.  To facilitate rate-limiting across different
+   server entities (e.g., DPs and MSPs), this unique signature should be
+   passed along during communication.
+
+14.  Mapping Removal
+
+   _R9: DPs MUST provide a way to remove mappings._
+
+   _R10: Only the recipient or the CSIP SHOULD be able to remove
+   mappings_
+
+   These requirements allow recipients to manage their discoverability
+   and remove outdated mappings.  Authorization to remove verifiable
+   mappings for a given CSI should be limited to only the recipient who
+   authorized the mapping or the CSIP managing that CSI (for cases where
+   a CSI is no longer assigned to any recipient).
+
+   Recipients can change their minds and decide to make a prior mapping
+   not discoverable; they may want to update mappings or start all over.
+   Thus, a DP should provide a means to remove verifiable mappings.
+   Once removed, a mapping should no longer be returned for senders'
+   requests.
+
+   A recipient that authorized the creation of a verifiable mapping
+   should also be able to authorize its removal from the backend of DPs.
+   Similarly, a CSIP may request the removal of mappings for a CSI that
+   has become unassigned.
+
+   A possible implementation approach is for verifiable mapping
+   authorization to include a bit that the recipient can use to indicate
+   if a mapping is new.  When that bit is set, a DP may proactively de-
+   list any existing mapping for that CSI (after asking the user to re-
+   confirm).  Note that the CSIP does not need to be aware of or be
+   involved with the de-listing of mappings with such an approach.
+   There are other approaches to ensure mappings are fresh and are not
+   impacted when the same CSI is transferred between two recipients.
+
+15.  Security Considerations
+
+   Security considerations are addressed throughout the document,
+   particularly in requirements R1, R4, R6, R7, and R8.  These
+   requirements focus on preventing unauthorized mapping, ensuring the
+   authenticity of mappings, protecting user privacy, and securing data
+   in transit and at rest.
+
+16.  IANA Considerations
 
    This document has no IANA actions.
 
-12.  Normative References
-
-   [I-D.draft-peterson-mimi-idprover]
-              Peterson, J., "An Identitifier Proof-of-Possession
-              Mechanism", Work in Progress, Internet-Draft, draft-
-              peterson-mimi-idprover-00, 4 March 2024,
-              <https://datatracker.ietf.org/doc/html/draft-peterson-
-              mimi-idprover-00>.
+17.  Normative References
 
    [I-D.petithuguenin-vipr-pvp]
               Petit-Huguenin, M., Rosenberg, J., and C. F. Jennings,
@@ -1036,11 +589,194 @@ Table of Contents
               Mail", RFC 8616, DOI 10.17487/RFC8616, June 2019,
               <https://www.rfc-editor.org/rfc/rfc8616>.
 
+Appendix A.  Architectural Models
+
+   This appendix explores various architectural models for MIMI DP to
+   provide an overview and address practical implementation
+   considerations.  The working group observed these requirements are
+   similar among these models and opted to maintain architectural
+   neutrality for the discovery protocol.  However, we will outline
+   requirements for the roles of DPs, how they interact with each other,
+   MSPs in a federated model, and how DPs accommodate queries from both
+   MSPs and users.
+
+A.1.  Centralized DP (Monolithic Service)
+
+   A globally accessible, authoritative database (potentially sharded/
+   replicated) stores all authenticated CSI mappings.  This monolithic
+   service, implemented across synchronized global nodes, handles all
+   CSI queries from messaging platforms and acts as the single source of
+   truth for mapping data, even if certain mappings may be restricted in
+   specific regions due to geopolitical considerations.
+
+A.1.1.  Advantages
+
+   *  Standardization and uniform control over mapping creation,
+      updates, and data formats.
+
+   *  Promotes fair and unbiased CSI mapping discovery.
+
+   *  Single source of truth for mapping simplifies data management and
+      ensures consistency.
+
+   *  Sharding/replication can address geographical distribution and
+      performance needs.
+
+A.1.2.  Drawbacks
+
+   *  Centralization of sensitive user data raises privacy risks.
+
+   *  May conflict with data localization regulations.
+
+   *  Single point of failure vulnerability from outages affecting the
+      entire system.
+
+   *  Potential difficulty with immediate global updates for rapidly
+      changing mappings.
+
+A.2.  Hierarchical DPs (Discovery Resolvers)
+
+   A global root Discovery Provider (DP) directs mapping requests to
+   authoritative DPs based on CSI structure (e.g., country codes for
+   E.164 phone numbers) or sharding mechanisms.  The root DP, similar to
+   hierarchical DNS, acts as a directory service, holding pointers to
+   authoritative DPs rather than mappings themselves.  Alternatives to
+   hierarchical resolution, like the LoST protocol [RFC5222], or
+   distributed hash tables (DHTs), can achieve similar outcomes.
+
+A.2.1.  Advantages
+
+   *  Scalability from distributed load and mapping management across
+      multiple DPs.
+
+   *  Flexibility that allows different DPs to specialize in specific
+      CSI ranges for regions.
+
+   *  Better alignment with data localization requirements.
+
+A.2.2.  Drawbacks
+
+   *  Requires coordination and maintenance of hierarchy.
+
+   *  Root DP failure could disrupt the entire system.
+
+   *  Potential delays due to additional hops in the discovery process.
+
+A.3.  Federated DPs (Distributed Peer Service)
+
+   In a federated model, multiple independent DPs collaborate to provide
+   CSI mapping discovery.  Each DP holds a subset of mappings and
+   pointers to other DPs, with no central authority dictating mapping
+   locations.  Discovering all mappings for a CSI may involve querying
+   multiple DPs.  DPs can exchange CSI information or recursively query
+   each other.  The specifics of DP federation are determined by
+   business agreements, not technical requirements.  A variation of this
+   model involves messaging platforms acting as their own DPs, managing
+   mappings for their users.
+
+A.3.1.  Advantages
+
+   *  Decentralization ensures there is no single point of control or
+      failure.  The system can continue functioning even if some DPs are
+      unavailable.
+
+   *  Mappings can be distributed according to local regulations.
+
+A.3.2.  Drawbacks
+
+   *  Discovery process may involve querying multiple DPs, increasing
+      network load.
+
+   *  Potential for bias as DPs may prioritize their own mappings,
+      leading to uneven results.
+
+   *  Requires robust mechanisms to prevent CSI impersonation and ensure
+      trust between DPs.
+
+   *  Pairwise relationships in a federated DP model could create a
+      barrier to entry for smaller MSP/DPs, similar to the trust
+      requirements in the DKIM [RFC6376] and DMARC [RFC8616] ecosystems.
+
+A.4.  Additional Considerations on Architectural Models
+
+A.4.1.  Telephone Number CSIs
+
+   Telephone number portability is complex due to its reliance on real-
+   time queries to proprietary and legacy systems.  Overall, the
+   authenticated mappings proposed for MIMI may necessitate additional
+   platform measures to assess mapping freshness and ensure up-to-date
+   reachability responses.
+
+A.4.2.  Bias Mitigation
+
+   Bias occurs when a DP prioritizes mappings to its affiliated MSP
+   without consideration of what is best for end users.  Mitigating bias
+   is essential to ensure fair and equitable discovery of authenticated
+   mappings across different services.  The working group has decided to
+   defer such mitigation to policies and regulations, excluding it from
+   the discovery protocol.
+
+Appendix B.  Recipient's Critical User Journeys
+
+   Here are some Critical User Journeys (CUJs) that are the most
+   important to discovery recipients.
+
+   In the CUJs below, Bob is the recipient that creates verifiable
+   mappings, and Alice is the sender or user performing discovery:
+
+   1.  Sender mapping preferences: Bob only wants to be found by Alice
+       and other users on WhatsApp, not his other messaging apps.
+
+   2.  Same-app preferences: Bob prefers that Alice can find him on the
+       same messaging service that she is using.  In other words, Bob
+       does not want cross-app discovery and messaging.
+
+   3.  No-random mapping preferences: Bob does not want to go through
+       multiple apps to find a message from Alice when discovery returns
+       one of 10 mappings that Bob has established with discovery
+       providers.
+
+   4.  No-duplication preferences: Bob does not want Alice's messages to
+       be broadcasted to all or a subset of his apps based on the result
+       of discovery.
+
+   5.  Per-sender preferences: Bob wants to control which app messages
+       from Alice go to and do the same for other users (e.g., Carol's
+       messages may go to a different app than Alice's).
+
+   6.  Closed group preferences: Bob only wants his soccer parents to
+       discover and contact him on WhatsApp, not his Wire app.  That is,
+       a group of senders has the same mapping results based on Bob's
+       preferences.
+
+   7.  Open-ended group preferences: Bob wants his business contacts to
+       discover and reach him on Wire, not WhatsApp.  That is, an open-
+       ended list of senders (i.e., including leads) are provided with a
+       designated mapping.
+
+Appendix C.  Protecting Sender-Recipient Social Graph Edge
+
+   To protect user privacy, implementations should consider:
+
+   1.  Sender Identity Protection: This approach focuses on concealing
+       the sender's identity from the Discovery Provider (DP).
+       Techniques like IP blinding (e.g., using a Private Relay) can be
+       employed to achieve this, ensuring the DP only learns the
+       recipient's CSI.
+
+   2.  Recipient Identity Protection: This approach aims to hide the
+       recipient's CSI from the DP.  Methods like Private Information
+       Retrieval (PIR) or Private Set Membership (PSM) allow the sender
+       to perform the lookup without revealing the recipient's
+       information to the DP, effectively limiting the DP's knowledge to
+       the sender's identity.
+
 Acknowledgments
 
-   We would like to acknowledge and express our appreciation for the
-   thoughtful feedback and constructive discussions that took place
-   during the MIMI interim meetings focused on the discovery problem.
+   We gratefully acknowledge the valuable feedback and constructive
+   discussions received within the working group, in individual
+   conversations, and during the MIMI interim meetings, as well as IETF
+   119, 120, and 121.
 
 Authors' Addresses
 
