@@ -5,11 +5,11 @@
 More Instant Messaging Interoperability (mimi)                 G. Hogben
 Internet-Draft                                               F. Olumofin
 Intended status: Informational                                    Google
-Expires: 1 June 2025                                         J. Peterson
+Expires: 23 December 2025                                    J. Peterson
                                                               TransUnion
                                                             J. Rosenberg
                                                                    Five9
-                                                        28 November 2024
+                                                            21 June 2025
 
 
                       User Discovery Requirements
@@ -42,7 +42,7 @@ About This Document
    https://www.ietf.org/mailman/listinfo/mimi/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/femigolu/user-discovery.
+   https://github.com/ietf-wg-mimi/draft-ietf-mimi-user-discovery-reqs/.
 
 Status of This Memo
 
@@ -59,11 +59,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 June 2025.
+   This Internet-Draft will expire on 23 December 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal

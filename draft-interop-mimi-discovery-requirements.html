@@ -12,24 +12,24 @@
 <meta content="
        This document defines requirements for the user discovery problem within the More Instant Messaging Interoperability (MIMI) working group. User discovery is essential for interoperability, allowing message senders to locate recipients across diverse platforms using globally unique, cross-service identifiers (e.g., email addresses, phone numbers). The core challenge involves reliably mapping these identifiers to messaging service providers and determining the reachability of a recipient's identifier across multiple providers. 
     " name="description">
-<meta content="xml2rfc 3.24.0" name="generator">
+<meta content="xml2rfc 3.29.0" name="generator">
 <meta content="user discovery" name="keyword">
 <meta content="interoperability" name="keyword">
 <meta content="messaging" name="keyword">
 <meta content="draft-interop-mimi-discovery-requirements-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.24.0
-    Python 3.12.7
+  xml2rfc 3.29.0
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.4
-    lxml 5.3.0
-    platformdirs 4.3.6
-    pycountry 22.3.5
-    PyYAML 6.0.1
-    requests 2.32.3
-    setuptools 70.3.0
+    Jinja2 3.1.6
+    lxml 5.3.1
+    platformdirs 4.3.8
+    pycountry 24.6.1
+    PyYAML 6.0.2
+    requests 2.32.4
+    setuptools 80.9.0
     wcwidth 0.2.13
 -->
 <link href="draft-interop-mimi-discovery-requirements.xml" rel="alternate" type="application/rfc+xml">
@@ -440,7 +440,7 @@ dl {
     margin-bottom: 0;
   }
 }
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
@@ -539,7 +539,11 @@ figcaption, caption {
   }
   pre, svg {
     display: inline-block;
-    overflow-x: auto;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
   }
   pre {
     max-width: 100%;
@@ -1045,11 +1049,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Discovery Requirements</td>
-<td class="right">November 2024</td>
+<td class="right">June 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Hogben, et al.</td>
-<td class="center">Expires 1 June 2025</td>
+<td class="center">Expires 23 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-interop-mimi-discovery-requirements-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-11-28" class="published">28 November 2024</time>
+<time datetime="2025-06-21" class="published">21 June 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-06-01">1 June 2025</time></dd>
+<dd class="expires"><time datetime="2025-12-23">23 December 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1108,7 +1112,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/mimi/">https://mailarchive.ietf.org/arch/browse/mimi/</a></span>.
         Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/mimi/">https://www.ietf.org/mailman/listinfo/mimi/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 <p id="section-note.1-4">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/femigolu/user-discovery">https://github.com/femigolu/user-discovery</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+        <span><a href="https://github.com/ietf-wg-mimi/draft-ietf-mimi-user-discovery-reqs/">https://github.com/ietf-wg-mimi/draft-ietf-mimi-user-discovery-reqs/</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1129,7 +1133,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 June 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1138,7 +1142,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2024 IETF Trust and the persons identified as the
+            Copyright (c) 2025 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
